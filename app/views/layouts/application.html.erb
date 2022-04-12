@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FlashCard</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+    <ul>
+    <%= current_user = User.find_by(id: session[:user_id])%>
+      <% if current_user %>
+        <li>
+          <%= link_to("メニューへ戻る","/")%>
+        </li>
+        <li>
+          <%= link_to "ログアウト",logout_path%>
+        </li>        
+        <li>
+          <%= link_to(current_user.name, "#")%>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to("単語帳とは","#")%>
+        </li>
+        <li>
+          <%= link_to("新規登録","/signup")%>
+        </li>
+        <li>
+          <%= link_to("ログイン","/login")%>
+        </li>
+    </ul>
+</header>
+<%= yield %>
+  </body>
+</html>
