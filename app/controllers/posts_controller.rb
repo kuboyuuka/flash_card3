@@ -8,8 +8,9 @@ class PostsController < ApplicationController
     end
   
     def create
-      @post = Post.new(word: params[:word],mean: params[:mean],user_id:@current_user.id)
+      @post = Post.new(word: params[:word],mean: params[:mean],id:@current_user.id)
       @tag = Tag.new(name: params[:name])
+      @user = @post.user
         if @post.save
             @tag.save
             redirect_to("/posts/index")
@@ -52,6 +53,7 @@ class PostsController < ApplicationController
     def show
         @tag = Tag.find_by(id: params[:id])
         @post = Post.find_by(id: @tag.id)
+        @user = @post.user
     end
   
     def destroy

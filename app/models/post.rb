@@ -8,5 +8,9 @@ class Post < ApplicationRecord
         else
           all
         end
-      end
+    end
+
+    def user
+      return User.find_by(id: self.user.id)
+    end
 end
