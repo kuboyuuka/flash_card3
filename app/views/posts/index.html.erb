@@ -1,0 +1,30 @@
+<%= form_tag("search", method: :get) do %>
+    <%= text_field_tag :tag %>
+    <%= submit_tag 'search', tag: nil %>
+<% end %>
+<% @posts.each do |post|%>
+<% post %>
+<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>タグ</th>
+      <th>単語</th>
+      <th>意味</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @posts.each do |post| %>
+  <% @tag = Tag.find_by(id: post.user_id) %>
+    <tr>
+      <td><%= link_to(@tag.name,"/posts/#{post.id}")%></td>
+      <td><%= link_to(post.word, "/posts/#{post.id}") %></td>
+      <td><%= link_to(post.mean, "/posts/#{post.id}") %></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
+
+<br>
+<%= link_to("新規登録","/posts/new")%><br>
+<%= link_to("メニューへ戻る","/main")%>

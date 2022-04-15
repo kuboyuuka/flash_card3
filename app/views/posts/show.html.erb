@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <th>タグ</th>
+      <th>単語</th>
+      <th>意味</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @tag.tag%></td>
+      <td><%= @post.mean%></td>
+      <td><%= @post.word%></td>
+    </tr>
+  </tbody>
+</table>
+<%= link_to("編集","/posts/#{@post.id}/edit")%>
+<%= link_to("削除","/posts/#{@post.id}/destroy") %>
+<%= link_to("戻る","/posts/index")%>
