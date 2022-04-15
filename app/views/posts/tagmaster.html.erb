@@ -1,3 +1,4 @@
+<% current_user = User.find_by(id: session[:user_id])%>
 <p>単語タグマスタ</p>
 <%= link_to("新規登録","/posts/new")%><br>
 <%= link_to("単語検索","#")%><br>

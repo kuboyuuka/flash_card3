@@ -15,9 +15,9 @@
   </thead>
   <tbody>
   <% @posts.each do |post| %>
-  <% @tag = Tag.find_by(id: post.tag_id) %>
+  <% @tag = Tag.find_by(id: post.user_id) %>
     <tr>
-      <td><%= link_to(@tag.tag,"/posts/#{post.id}")%></td>
+      <td><%= link_to(@tag.name,"/posts/#{post.id}")%></td>
       <td><%= link_to(post.word, "/posts/#{post.id}") %></td>
       <td><%= link_to(post.mean, "/posts/#{post.id}") %></td>
     </tr>

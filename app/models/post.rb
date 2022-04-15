@@ -1,5 +1,7 @@
 class Post < ApplicationRecord
-    belongs_to :tag
+    validates :word, {presence: true}
+    validates :mean, {presence: true}
+    belongs_to :tag, optional: true
     def self.search(search)
         if search
           where(["name LIKE ?", "%#{search}%"])
