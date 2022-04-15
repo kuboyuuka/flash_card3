@@ -1,7 +1,10 @@
 class Post < ApplicationRecord
     validates :word, {presence: true}
     validates :mean, {presence: true}
-    belongs_to :tag, optional: true
+    validates :post_id, {presence: true}
+    validates :tag_id, {presence: true}
+    belongs_to :user
+    belongs_to :tag
     def self.search(search)
         if search
           where(["name LIKE ?", "%#{search}%"])
@@ -11,6 +14,5 @@ class Post < ApplicationRecord
     end
 
     def user
-      return User.find_by(id: self.user.id)
     end
 end

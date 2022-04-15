@@ -1,5 +1,6 @@
 class Tag < ApplicationRecord
 
-    has_many :tags
-    accepts_nested_attributes_for :tags, allow_destroy: true
+    has_many :posts,dependent: :destroy, foreign_key: 'post_id'
+    has_many :users,through: :posts
+    validates :name, uniqueness: true, presence: true
 end

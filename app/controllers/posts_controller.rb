@@ -8,9 +8,8 @@ class PostsController < ApplicationController
     end
   
     def create
-      @post = Post.new(word: params[:word],mean: params[:mean],id:@current_user.id)
+      @post = Post.new(word: params[:word],mean: params[:mean],tag_id: params[:tag_id],user_id:@current_user)
       @tag = Tag.new(name: params[:name])
-      @user = @post.user
         if @post.save
             @tag.save
             redirect_to("/posts/index")
@@ -34,6 +33,7 @@ class PostsController < ApplicationController
     def index
         @posts = Post.all.order(created_at: :desc)
         @posts = Post.all.search(params[:search])
+        @tags = Tag.all.order(created_at: :desc)
     end
   
     def edit
@@ -43,7 +43,7 @@ class PostsController < ApplicationController
   
     def update
         @tag = Tag.find_by(id: params[:id])
-        @tag.tag = params[:tag]
+        @tag.name = params[:name]
         if @tag.save
             flash[:notice] = "タグを編集しました。"
             redirect_to("/posts/index")
