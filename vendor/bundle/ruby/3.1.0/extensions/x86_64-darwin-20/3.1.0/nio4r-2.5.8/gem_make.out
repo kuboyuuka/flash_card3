@@ -1,5 +1,5 @@
 current directory: /Users/kuboyuka/flashCard_n/vendor/bundle/ruby/3.1.0/gems/nio4r-2.5.8/ext/nio4r
-/Users/kuboyuka/.rbenv/versions/3.1.1/bin/ruby -I /Users/kuboyuka/.rbenv/versions/3.1.1/lib/ruby/3.1.0 -r ./siteconf20220412-47883-y5lgxl.rb extconf.rb
+/Users/kuboyuka/.rbenv/versions/3.1.1/bin/ruby -I /Users/kuboyuka/.rbenv/versions/3.1.1/lib/ruby/3.1.0 -r ./siteconf20220415-58195-xblyoz.rb extconf.rb
 checking for unistd.h... yes
 checking for linux/aio_abi.h... no
 checking for linux/io_uring.h... no
@@ -296,4 +296,4 @@ linking shared-object nio4r_ext.bundle
 
 current directory: /Users/kuboyuka/flashCard_n/vendor/bundle/ruby/3.1.0/gems/nio4r-2.5.8/ext/nio4r
 make DESTDIR\= install
-/usr/bin/install -c -m 0755 nio4r_ext.bundle ./.gem.20220412-47883-6b695d
+/usr/bin/install -c -m 0755 nio4r_ext.bundle ./.gem.20220415-58195-ezmyz2
