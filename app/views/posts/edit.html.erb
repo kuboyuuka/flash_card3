@@ -1,5 +1,5 @@
 <p>単語タグ編集</p>
 <%= form_tag("/posts/#{@tag.id}/update") do%>
-    <textarea name="tag"><%=  @tag.tag %></textarea><%= " : #{@post.word} : #{@post.mean}"%><br>
+    <textarea name="name"><%=  @tag.name %></textarea><%= " : #{@post.word} : #{@post.mean}"%><br>
     <input type="submit" value="保存">
 <%end%>

@@ -8,7 +8,7 @@ class PostsController < ApplicationController
     end
   
     def create
-      @post = Post.new(word: params[:word],mean: params[:mean],tag_id: params[:tag_id],user_id:@current_user)
+      @post = Post.new(word: params[:word],mean: params[:mean],user_id:@current_user)
       @tag = Tag.new(name: params[:name])
         if @post.save
             @tag.save
