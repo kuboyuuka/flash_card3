@@ -1,6 +1,5 @@
 class Tag < ApplicationRecord
 
-    has_many :posts,dependent: :destroy, foreign_key: 'post_id'
-    has_many :users,through: :posts
-    validates :name, uniqueness: true, presence: true
+    has_many :post_tags,dependent: :destroy, foreign_key: 'tag_id'
+    has_many :posts,through: :post_tags
 end

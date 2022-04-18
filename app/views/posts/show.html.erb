@@ -8,7 +8,10 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= @tag.name%></td>
+      <td><%if @tag.name != nil %>
+      <%= @tag.name%>
+      <%end%>
+      </td>
       <td><%= @post.word%></td>
       <td><%= @post.mean%></td>
     </tr>

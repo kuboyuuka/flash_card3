@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get "posts/index" => "posts#index"
   get "search" => "posts#index"
   get "posts/tagmaster" => "posts#tagmaster"
+  get "posts/tag" => "posts#tag_new"
+  post "posts/create_tag" => "posts#create_tag"
   get "posts/wordmaster" => "posts#wordmaster"
   get "posts/flashcard" => "posts#flashcard"
   get "posts/ranking" => "posts#ranking"

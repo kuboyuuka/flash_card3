@@ -8,16 +8,29 @@ class PostsController < ApplicationController
     end
   
     def create
-      @post = Post.new(word: params[:word],mean: params[:mean],user_id:@current_user)
-      @tag = Tag.new(name: params[:name])
+        @post = Post.new(post_params)
+        @post.user_id=current_user.id
+        tag_list=params[:name].split(',')
         if @post.save
-            @tag.save
-            redirect_to("/posts/index")
+          @post.save_tag(tag_list)
+          redirect_to("/posts/index")
         else
-          p @post.errors.full_messages
           render:new
         end
-  
+    end
+
+    def create_tag
+      @tag = Tag.new(name: params[:name])
+      @postag.tag_id = @tag.id
+      if @tag.save
+        redirect_to("/posts/tagmaster")
+      else
+        render:tag_new
+      end
+    end
+
+    def tag
+      @tags = Tag.pluck(:name)
     end
   
     def post_params
@@ -33,7 +46,7 @@ class PostsController < ApplicationController
     def index
         @posts = Post.all.order(created_at: :desc)
         @posts = Post.all.search(params[:search])
-        @tags = Tag.all.order(created_at: :desc)
+        @tag = Tag.all
     end
   
     def edit
@@ -51,9 +64,10 @@ class PostsController < ApplicationController
     end
   
     def show
-        @tag = Tag.find_by(id: params[:id])
-        @post = Post.find_by(id: @tag.id)
+        @post = Post.find_by(id: params[:id])
         @user = @post.user
+        @postag.tag_id = @tag.id
+        @tag = Tag.find_by(id: @postag.id)
     end
   
     def destroy

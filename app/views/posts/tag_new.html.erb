@@ -1,0 +1,7 @@
+<h1>新規タグ登録画面</h1>
+<%= form_tag("/posts/create_tag", method: :post) do %>
+    <p>タグ</p>
+    <textarea name="name"></textarea>
+    <input type="submit" value="登録">
+<%end%>
+<%= link_to("戻る","/posts/tagmaster")%>
