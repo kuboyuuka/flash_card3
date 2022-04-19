@@ -13,9 +13,6 @@ Rails.application.routes.draw do
 
   get "posts/index" => "posts#index"
   get "search" => "posts#index"
-  get "posts/tagmaster" => "posts#tagmaster"
-  get "posts/tag" => "posts#tag_new"
-  post "posts/create_tag" => "posts#create_tag"
   get "posts/wordmaster" => "posts#wordmaster"
   get "posts/flashcard" => "posts#flashcard"
   get "posts/ranking" => "posts#ranking"
@@ -25,6 +22,17 @@ Rails.application.routes.draw do
   get "posts/:id" => "posts#show"
   post "posts/:id/update" => "posts#update"
   get "posts/:id/destroy" => "posts#destroy"
+
+  get "tags/index" => "tags#index"
+  get "search" => "tags#index"
+  get "tags/tagmaster" => "tags#tagmaster"
+  get "tags/new" => "tags#new"
+  post "tags/create" => "tags#create"
+  post "tags/:id/update" => "tags#update"
+  get "tags/:id/edit" => "tags#edit"
+  get "tags/:id/show" => "tags#show"
+  get "tags/:id/destroy" => "tags#destroy"
+
 
   get "/"  => "home#top"
   get "about" => "home#about"

@@ -1,0 +1,25 @@
+<%= form_tag("search", method: :get) do %>
+    <%= text_field_tag :tag %>
+    <%= submit_tag 'search', tag: nil %>
+<% end %>
+<% @tags.each do |tag|%>
+<% tag %>
+<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>タグ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tags.each do |tag| %>
+      <tr>
+        <td><%= link_to(tag.name, "/tags/#{tag.id}/show")  %></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+
+<br>
+<%= link_to("新規登録","/tags/new")%><br>
+<%= link_to("タグマスタメニューへ戻る","/tags/tagmaster")%>

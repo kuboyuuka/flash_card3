@@ -74,3 +74,5 @@ group :test do
 end
 
 gem 'ransack'
+
+gem 'pry-rails'

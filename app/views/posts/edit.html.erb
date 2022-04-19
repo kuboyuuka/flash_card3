@@ -1,5 +1,6 @@
 <p>単語タグ編集</p>
-<%= form_tag("/posts/#{@tag.id}/update") do%>
-    <textarea name="name"><%=  @tag.name %></textarea><%= " : #{@post.word} : #{@post.mean}"%><br>
-    <input type="submit" value="保存">
+<%= form_with model: @tag do |form| %>
+      <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]} %><%= " : #{@post.word} : #{@post.mean}"%><br>
+    <input type="submit" name = "name" value="保存">
 <%end%>
+<%= link_to("戻る","/tags/index")%>

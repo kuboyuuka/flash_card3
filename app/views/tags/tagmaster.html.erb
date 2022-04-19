@@ -1,6 +1,6 @@
 <% current_user = User.find_by(id: session[:user_id])%>
 <p>単語タグマスタ</p>
-<%= link_to("新規登録","/posts/tag")%><br>
+<%= link_to("新規登録","/tags/new")%><br>
 <%= link_to("単語検索","#")%><br>
-<%= link_to("単語一覧","/posts/index")%><br>
+<%= link_to("タグ一覧","/tags/index")%><br>
 <%= link_to("メニューへ戻る","/main")%>

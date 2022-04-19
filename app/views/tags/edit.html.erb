@@ -1,0 +1,7 @@
+<p>単語タグ編集</p>
+<%= form_tag("/tags/#{@tag.id}/update") do %>
+    <p>タグ</p>
+    <textarea name="name"><%= @tag.name%></textarea>
+    <input type="submit" value="更新" >
+<% end %>
+<%= link_to("戻る","/tags/index")%>

@@ -1,0 +1,15 @@
+<table>
+  <thead>
+    <tr>
+      <th>タグ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @tag.name%></td>
+    </tr>
+  </tbody>
+</table>
+<%= link_to("編集","/tags/#{@tag.id}/edit")%>
+<%= link_to("削除","/tags/#{@tag.id}/destroy") %>
+<%= link_to("戻る","/tags/index")%>

@@ -16,9 +16,7 @@
   <tbody>
   <% @posts.each do |post| %>
     <tr>
-      <td><%= form_with(model: tag, local:true) do |form| %>
-      <%= form.select @tags %>
-      </td>
+      <td></td>
       <td><%= link_to(post.word, "/posts/#{post.id}") %></td>
       <td><%= link_to(post.mean, "/posts/#{post.id}") %></td>
     </tr>
