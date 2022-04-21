@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get "posts/:id" => "posts#show"
   post "posts/:id/update" => "posts#update"
   get "posts/:id/destroy" => "posts#destroy"
+  get "posts/:id/synonym" => "posts#synonym"
 
   get "tags/index" => "tags#index"
   get "search" => "tags#index"

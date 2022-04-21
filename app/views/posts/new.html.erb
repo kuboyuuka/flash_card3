@@ -4,6 +4,10 @@
     <textarea name="word"></textarea>
     <p>意味</p>
     <textarea name="mean"></textarea>
+    <p>類義語</p>
+    <textarea name="synonym"></textarea>
+    <p>タグ選択</p>
+    <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{} %>
     <input type="submit" value="登録">
 
 <%end%>

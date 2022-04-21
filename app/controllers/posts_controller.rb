@@ -4,19 +4,21 @@ class PostsController < ApplicationController
     end
   
     def new
-      @post = Post.new
+      @post_form = PostForm.new
     end
   
     def create
-      @post = Post.new(post_params)
-      @post.user_id=current_user.id
-      tag_list=params[:name].split(',')
-      if @post.save
-         @post.save_tag(tag_list)
+      @post_form = PostForm.new(post_params)
+      @post.user_id = @current_user.id
+      if @post_form.save
          redirect_to("/posts/index")
       else
         render:new
       end
+    end
+
+    def post_params
+      params.require(:post_form).permit(:word, :mean, :user_id, :synonym)
     end
   
     def post_params
@@ -51,7 +53,7 @@ class PostsController < ApplicationController
   
     def show
       @post = Post.find_by(id: params[:id])
-      @user = @post.user
+      @user = @post.user_id
       @postag = PostTag.find_by(id: @post.id)
       @tag = Tag.find_by(id: params[:id])
     end

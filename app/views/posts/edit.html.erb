@@ -1,6 +1,9 @@
 <p>単語タグ編集</p>
-<%= form_with model: @tag do |form| %>
-      <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]} %><%= " : #{@post.word} : #{@post.mean}"%><br>
+<%= form_with(url:"/posts/#{@post.id}/update") do %>
+    <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{} %>
+    <textarea name="word"><%= @post.word%></textarea>
+    <textarea name="mean"><%= @post.mean%></textarea><br>
     <input type="submit" name = "name" value="保存">
 <%end%>
-<%= link_to("戻る","/tags/index")%>
+<%= link_to("類義語登録","/posts/#{@post.id}/synonym")%>
+<%= link_to("戻る","/posts/index")%>

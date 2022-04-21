@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+
+    #include ActiveModel::Model
+    #attr_accessor :name, :word, :mean, :tag_id
+
     has_secure_password
     has_many :posts, dependent: :destroy
     has_many :tags,through: :post_tags
