@@ -4,6 +4,7 @@
       <th>タグ</th>
       <th>単語</th>
       <th>意味</th>
+      <th>類義語</th>
     </tr>
   </thead>
   <tbody>
@@ -15,6 +16,10 @@
       </td>
       <td><%= @post.word%></td>
       <td><%= @post.mean%></td>
+      <td>
+      <%if @synonym.synonym != nil %>
+      <%= @synonym.synonym%></td>
+      <%end%>
     </tr>
   </tbody>
 </table>

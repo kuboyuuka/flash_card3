@@ -1,13 +1,17 @@
 <h1>新規単語登録画面</h1>
-<%= form_tag("/posts/create") do |post| %>
+<%= form_with url: posts_create_path do |form| %>
     <p>単語</p>
-    <textarea name="word"></textarea>
+    <%= form.text_field :word %>
     <p>意味</p>
-    <textarea name="mean"></textarea>
+    <%= form.text_field :mean %>
     <p>類義語</p>
-    <textarea name="synonym"></textarea>
+    <%= form.fields_for :synonyms do |synonym| %>
+    <%= form.text_field :synonym %>
+    <% end %>
     <p>タグ選択</p>
-    <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{} %>
-    <input type="submit" value="登録">
+    <%= form.fields_for :posttags do |posttag| %>
+    <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:1} %>
+    <%= form.submit %>
+    <% end %>
 
 <%end%>
