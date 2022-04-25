@@ -13,5 +13,8 @@
     <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:1} %>
     <%= form.submit %>
     <% end %>
+    <br>
+    <br>
+    <%= link_to("一覧へ戻る","/posts/index")%>
 
 <%end%>

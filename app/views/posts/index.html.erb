@@ -15,14 +15,19 @@
   <% @posts.each do |post|%>
   <% post %>
     <tr>
-      <td><%if @postag != nil %>
-      <%= @tag.name%>
+      <td>
+      <% @postag = PostTag.find_by(post_id: post.id) %>
+      <%if @postag.tag_id != nil %>
+      <%@tag = Tag.find_by(id: @postag.tag_id)%>
+      <%= link_to(@tag.name,"/posts/#{post.id}") %>
       <%end %>
       </td>
       <td><%= link_to(post.word, "/posts/#{post.id}") %></td>
       <td><%= link_to(post.mean, "/posts/#{post.id}") %></td>
-      <td><%if @synonym != nil%>
-      <%= @synonym.synonym%>
+      <td>
+      <% @synonym = Synonym.find_by(post_id: post.id) %>
+      <%if @synonym != nil%>
+      <%= link_to(@synonym.synonym, "/posts/#{post.id}") %>
       <%end%>
       </td>
     </tr>

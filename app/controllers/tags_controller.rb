@@ -37,8 +37,9 @@ class TagsController < PostsController
 
     def destroy
       @tag = Tag.find_by(id: params[:id])
-      @tag.destroy
+      if@tag.destroy
       redirect_to("/tags/index")
+      end
     end
 
 end

@@ -10,9 +10,9 @@
   <tbody>
     <tr>
       <td>
-        <%#if @tag.name != nil %>
-        <%#= @tag.name %>
-        <%# end %>
+        <%if @tag.name != nil %>
+        <%= @tag.name %>
+        <% end %>
       </td>
       <td><%= @post.word%></td>
       <td><%= @post.mean%></td>
@@ -25,4 +25,4 @@
 </table>
 <%= link_to("編集","/posts/#{@post.id}/edit")%>
 <%= link_to("削除","/posts/#{@post.id}/destroy") %>
-<%= link_to("戻る","/posts/index")%>
+<%= link_to("一覧へ戻る","/posts/index")%>
