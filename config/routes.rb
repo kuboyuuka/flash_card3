@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'searches/search'
   get "posts/index" => "posts#index"
   get "login" => "users#login_form"
   post "login" => "users#login"
@@ -12,7 +13,8 @@ Rails.application.routes.draw do
   get "users/:id" => "users#show"
 
   get "posts/index" => "posts#index"
-  get "search" => "posts#index"
+  
+
   get "posts/wordmaster" => "posts#wordmaster"
   get "posts/flashcard" => "posts#flashcard"
   get "posts/ranking" => "posts#ranking"
@@ -23,9 +25,9 @@ Rails.application.routes.draw do
   post "posts/:id/update" => "posts#update"
   get "posts/:id/destroy" => "posts#destroy"
   get "posts/:id/synonym" => "posts#synonym"
+  get "search" => "posts#search"
 
   get "tags/index" => "tags#index"
-  get "search" => "tags#index"
   get "tags/tagmaster" => "tags#tagmaster"
   get "tags/new" => "tags#new"
   post "tags/create" => "tags#create"
@@ -33,6 +35,7 @@ Rails.application.routes.draw do
   get "tags/:id/edit" => "tags#edit"
   get "tags/:id/show" => "tags#show"
   get "tags/:id/destroy" => "tags#destroy"
+  get "search" => "tags#search"
 
 
   get "/"  => "home#top"

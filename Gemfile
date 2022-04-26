@@ -73,6 +73,6 @@ group :test do
   gem "webdrivers"
 end
 
-gem 'ransack'
+gem 'carrierwave'
 
 gem 'pry-rails'

@@ -33,11 +33,10 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(:word, tags_attributes: [:tag])
     end
-  
+
     def search
-      @result = Post.ransack(params[:result])
-      @posts = @result.result(distinct: true)
-      
+      @posts = Synonym.includes(:posts).references(:posts)
+      @synonyms = Synonym.search(:keyword)
     end
   
     def index
@@ -62,7 +61,6 @@ class PostsController < ApplicationController
       @postag.tag_id = params[:tag_id]
       @synonym = Synonym.find_by(post_id: @post.id)
       @synonym.synonym = params[:synonym]
-      p 123
       if @post.save
          @postag.save
          @synonym.save

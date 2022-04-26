@@ -1,6 +1,6 @@
-<%= form_tag("search", method: :get) do %>
-    <%= text_field_tag :tag %>
-    <%= submit_tag 'search', tag: nil %>
+<%= form_with url: search_path, local:true, method: :get, class: "search-form" do |f| %>
+    <%= f.text_field :keyword, placeholder:"検索する", class:"search-input" %>
+    <%= f.submit "検索", class: "search-btn" %>
 <% end %>
 <table>
   <thead>
@@ -20,7 +20,7 @@
       <%if @postag.tag_id != nil %>
       <%@tag = Tag.find_by(id: @postag.tag_id)%>
       <%= link_to(@tag.name,"/posts/#{post.id}") %>
-      <%end %>
+      <%  end %>
       </td>
       <td><%= link_to(post.word, "/posts/#{post.id}") %></td>
       <td><%= link_to(post.mean, "/posts/#{post.id}") %></td>
@@ -31,7 +31,7 @@
       <%end%>
       </td>
     </tr>
-<%end%>
+  <%end%>
   </tbody>
 </table>
 

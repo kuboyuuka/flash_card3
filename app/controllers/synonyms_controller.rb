@@ -8,5 +8,8 @@ class SynonymsController < PostsController
         @synonym.save
     end
 
+    def search
+        @synonyms = Synonym.search(params[:keyword])
+    end
 
 end
