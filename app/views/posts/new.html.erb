@@ -1,10 +1,11 @@
 <h1>新規単語登録画面</h1>
-<%= form_with url: posts_create_path do |form| %>
+<%= form_with model: @post, url: posts_create_path, local: true do |form| %>
     <p>単語</p>
     <%= form.text_field :word %>
     <p>意味</p>
     <%= form.text_field :mean %>
     <p>類義語</p>
+    <%= link_to_add_association '類義語追加', form, :synonyms%>
     <%= form.fields_for :synonyms do |synonym| %>
     <%= form.text_field :synonym %>
     <% end %>
@@ -14,7 +15,7 @@
     <%= form.submit %>
     <% end %>
     <p>画像</p>
-    
+
     <br>
     <br>
     <%= link_to("一覧へ戻る","/posts/index")%>

@@ -14,6 +14,8 @@ class TagsController < PostsController
 
     def  show
       @tag = Tag.find_by(id: params[:id])
+      @postags = PostTag.where(tag_id: @tag.id)
+      @posts = Post.where(id: @postags.map{|postag| postag.post_id})
     end
   
     def index

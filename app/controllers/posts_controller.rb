@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   
     def new
       @post = Post.new
-      @synonym = Synonym.new
+      @synonym = @post.synonyms.build
       @tags = Tag.all
       @tag = Tag.new
       @postags = PostTag.all
@@ -16,11 +16,12 @@ class PostsController < ApplicationController
       @post.user_id = @current_user.id
       @postag = PostTag.find_by(tag_id: params[:tag_id])
       if @post.save
+         redirect_to my_post_user_path(id: current_user)
          @postag = PostTag.new(post_id: @post.id, tag_id: params[:tag_id])
          @postag.save
          @synonym = Synonym.new(synonym: params[:synonym],post_id: @post.id)
          @synonym.save
-      redirect_to("/posts/index")
+         redirect_to("/posts/index")
       else
         render:new
       end
@@ -28,10 +29,8 @@ class PostsController < ApplicationController
 
     def post_params
       params.require(:post_form).permit(:word, :mean, :user_id, :synonym)
-    end
-  
-    def post_params
       params.require(:post).permit(:word, tags_attributes: [:tag])
+      params.require(:synonym).permit(:synonym, :description, synonym_attributes: [:synonym])
     end
 
     def search

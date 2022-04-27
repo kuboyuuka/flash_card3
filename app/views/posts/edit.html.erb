@@ -1,16 +1,16 @@
 <h1>単語編集</h1>
 <%= form_with(url:"/posts/#{@post.id}/update") do |form| %>
     <p>単語</p>
-    <%= form.text_field :word,:placeholder => "#{@post.word}" %>
+    <%= form.text_field :word, :value => "#{@post.word}" %>
     <p>意味</p>
-    <%= form.text_field :mean,:placeholder => "#{@post.mean}"%>
+    <%= form.text_field :mean,:value => "#{@post.mean}"%>
     <p>類義語</p>
     <%= form.fields_for :synonyms do |synonym| %>
-    <%= form.text_field :synonym,:placeholder => "#{@synonym.synonym}" %>
+    <%= form.text_field :synonym,:value => "#{@synonym.synonym}" %>
     <% end %>
     <p>タグ選択</p>
     <%= form.fields_for :posttags do |posttag| %>
-    <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:1} %>
+    <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{selected:"#{@tag.id}"} %>
     <% end %>
     <%= form.submit %>
 <%end%>

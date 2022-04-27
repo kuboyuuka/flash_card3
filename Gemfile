@@ -76,3 +76,7 @@ end
 gem 'carrierwave'
 
 gem 'pry-rails'
+
+gem 'jquery-rails'
+
+gem 'cocoon'

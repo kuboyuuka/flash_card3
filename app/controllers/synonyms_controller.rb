@@ -6,6 +6,7 @@ class SynonymsController < PostsController
     def create
         @synonym = Synonym.new(synonym: params[:synonym],post_id: @post.id)
         @synonym.save
+        
     end
 
     def search
