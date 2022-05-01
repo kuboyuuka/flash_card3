@@ -16,11 +16,15 @@
   <% post %>
     <tr>
       <td>
-      <% @postag = PostTag.find_by(post_id: post.id) %>
-      <%if @postag.tag_id != nil %>
-      <%@tag = Tag.find_by(id: @postag.tag_id)%>
-      <%= link_to(@tag.name,"/posts/#{post.id}") %>
-      <%  end %>
+      <% @postags = PostTag.where(post_id: post.id) %>
+      <% @postags.each do |postag|%>
+      <%if postag.tag_id != nil %>
+      <%@tags = Tag.where(id: postag.tag_id)%>
+      <%@tags.each do |tag|%>
+      <%= link_to(tag.name,"/posts/#{post.id}") %>
+      <% end %>
+      <% end %>
+      <% end %>
       </td>
       <td><%= link_to(post.word, "/posts/#{post.id}") %></td>
       <td><%= link_to(post.mean, "/posts/#{post.id}") %></td>

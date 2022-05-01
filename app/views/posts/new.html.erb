@@ -1,23 +1,27 @@
 <h1>新規単語登録画面</h1>
-<%= form_with model: @post, url: posts_create_path, local: true do |form| %>
+<%= form_with model: @post, url: posts_create_path, local: true do |f| %>
     <p>単語</p>
-    <%= form.text_field :word %>
+        <%= f.text_field :word %>
     <p>意味</p>
-    <%= form.text_field :mean %>
+        <%= f.text_field :mean %>
     <p>類義語</p>
-    <%= link_to_add_association '類義語追加', form, :synonyms%>
-    <%= form.fields_for :synonyms do |synonym| %>
-    <%= form.text_field :synonym %>
-    <% end %>
+    <div id='synonyms'>
+        <%= f.fields_for :synonyms, local: true, id: 'js-log-field' do |synonym| %>
+            <%= render 'synonym_fields', f: synonym %>
+        <% end %>
+        <div class='links'>
+            <%= link_to_add_association '類義語追加', f, :synonyms %>
+        </div>
+    </div>
     <p>タグ選択</p>
-    <%= form.fields_for :posttags do |posttag| %>
-    <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:1} %>
-    <%= form.submit %>
+    <%= f.fields_for :posttags do |posttag| %>
+        <%= f.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:1} %>
     <% end %>
     <p>画像</p>
-
+    <%= f.file_field :images, :multipart => true %>
+    <input type="submit" value="登録">
+<% end %>
+    
     <br>
     <br>
     <%= link_to("一覧へ戻る","/posts/index")%>
-
-<%end%>

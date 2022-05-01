@@ -12,25 +12,27 @@ class PostsController < ApplicationController
     end
   
     def create
-      @post = Post.new(word: params[:word],mean: params[:mean])
+      @post = Post.new(word: params[:post][:word],mean: params[:post][:mean],image: params[:post][:image])
       @post.user_id = @current_user.id
       @postag = PostTag.find_by(tag_id: params[:tag_id])
+      @tags = Tag.all
       if @post.save
-         redirect_to my_post_user_path(id: current_user)
-         @postag = PostTag.new(post_id: @post.id, tag_id: params[:tag_id])
+         @postag = PostTag.new(post_id: @post.id, tag_id: params[:post][:tag_id])
          @postag.save
-         @synonym = Synonym.new(synonym: params[:synonym],post_id: @post.id)
+
+         @synonym = Synonym.new(synonym: params[:post][:synonyms_attributes][:synonym],post_id: @post.id)
          @synonym.save
          redirect_to("/posts/index")
       else
-        render:new
+        p @post.errors.full_messages
+        render("posts/new")
       end
     end
 
     def post_params
       params.require(:post_form).permit(:word, :mean, :user_id, :synonym)
       params.require(:post).permit(:word, tags_attributes: [:tag])
-      params.require(:synonym).permit(:synonym, :description, synonym_attributes: [:synonym])
+      params.require(:synonym).permit(:synonym, :description, synonym_attributes: [:synonym, :_destroy])
     end
 
     def search
@@ -66,7 +68,7 @@ class PostsController < ApplicationController
          flash[:notice] = "タグを編集しました。"
          redirect_to("/posts/index")
       else
-        p @post.errors.full_messages
+        render("/posts/new")
       end
     end
   
