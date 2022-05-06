@@ -12,16 +12,11 @@ class PostsController < ApplicationController
     end
   
     def create
-      @post = Post.new(word: params[:post][:word],mean: params[:post][:mean],image: params[:post][:image])
+      @post = Post.new(post_params)
       @post.user_id = @current_user.id
       @postag = PostTag.find_by(tag_id: params[:tag_id])
       @tags = Tag.all
       if @post.save
-         @postag = PostTag.new(post_id: @post.id, tag_id: params[:post][:tag_id])
-         @postag.save
-
-         @synonym = Synonym.new(synonym: params[:post][:synonyms_attributes][:synonym],post_id: @post.id)
-         @synonym.save
          redirect_to("/posts/index")
       else
         p @post.errors.full_messages
@@ -30,9 +25,14 @@ class PostsController < ApplicationController
     end
 
     def post_params
-      params.require(:post_form).permit(:word, :mean, :user_id, :synonym)
-      params.require(:post).permit(:word, tags_attributes: [:tag])
-      params.require(:synonym).permit(:synonym, :description, synonym_attributes: [:synonym, :_destroy])
+      params.require(:post).permit(
+        :word, 
+        :mean, 
+        :user_id, 
+        :description,
+        tags_attributes: [:tag], 
+        synonym_attributes: [:synonym, :_destroy]
+      )
     end
 
     def search
@@ -44,6 +44,7 @@ class PostsController < ApplicationController
       @posts = Post.all.order(created_at: :desc)
       @posts = Post.all.search(params[:search])
       @postags = PostTag.all
+      @synonyms = Synonym.all
     end
   
     def edit
@@ -76,8 +77,12 @@ class PostsController < ApplicationController
       @post = Post.find_by(id: params[:id])
       @user = @post.user_id
       @postag = PostTag.find_by(post_id: @post.id)
-      @tag = Tag.find_by(id: @postag.tag_id)
-      @synonym = Synonym.find_by(post_id: @post.id)
+      if @postag.nil?
+        p ""
+      else
+        @tag = Tag.find_by(id: @postag.tag_id)
+        @synonym = Synonym.find_by(post_id: @post.id)
+      end
     end
   
     def destroy

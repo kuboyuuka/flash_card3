@@ -9,6 +9,8 @@
       <th>単語</th>
       <th>意味</th>
       <th>類義語</th>
+      <th>類義語2</th>
+      <th>類義語3</th>
     </tr>
   </thead>
   <tbody>
@@ -18,21 +20,25 @@
       <td>
       <% @postags = PostTag.where(post_id: post.id) %>
       <% @postags.each do |postag|%>
-      <%if postag.tag_id != nil %>
-      <%@tags = Tag.where(id: postag.tag_id)%>
-      <%@tags.each do |tag|%>
-      <%= link_to(tag.name,"/posts/#{post.id}") %>
-      <% end %>
-      <% end %>
+        <%if postag.tag_id != nil %>
+          <%@tags = Tag.where(id: postag.tag_id)%>
+          <%@tags.each do |tag|%>
+            <%= link_to(tag.name,"/posts/#{post.id}") %>
+          <% end %>
+        <% end %>
       <% end %>
       </td>
       <td><%= link_to(post.word, "/posts/#{post.id}") %></td>
       <td><%= link_to(post.mean, "/posts/#{post.id}") %></td>
       <td>
-      <% @synonym = Synonym.find_by(post_id: post.id) %>
-      <%if @synonym != nil%>
-      <%= link_to(@synonym.synonym, "/posts/#{post.id}") %>
-      <%end%>
+      <%@synonyms = Synonym.where(post_id: post.id) %>
+        <%@synonyms.each do |synonym|%>
+          <%if synonym.synonym != nil%>
+            <%= link_to(synonym.synonym, "/posts/#{post.id}") %>
+          <%else%>
+            <%p ""%>
+          <%end%>
+        <%end%>
       </td>
     </tr>
   <%end%>
