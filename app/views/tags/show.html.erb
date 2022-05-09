@@ -1,7 +1,9 @@
 <h1>タグ</h1>
 <%= @tag.name%><br>
+<%if @tag.user_id == @current_user.id %>
 <%= link_to("編集","/tags/#{@tag.id}/edit")%>
 <%= link_to("削除","/tags/#{@tag.id}/destroy") %>
+<% end %>
 <%= link_to("戻る","/tags/index")%>
 <br>
 <% @posts.each do |post|%>

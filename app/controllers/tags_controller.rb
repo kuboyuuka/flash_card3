@@ -5,7 +5,7 @@ class TagsController < PostsController
   end
 
       def create
-        @tag = Tag.new(name: params[:name])
+        @tag = Tag.new(name: params[:name],user_id: @current_user.id)
         if @tag.save
           redirect_to("/tags/index")
         else
