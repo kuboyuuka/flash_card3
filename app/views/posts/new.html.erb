@@ -18,7 +18,7 @@
         <%= f.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:1} %>
     <% end %>
     <p>画像</p>
-    <%= f.file_field :images, :multipart => true %>
+    <%= f.file_field :image, :multipart => true %>
     <input type="submit" value="登録">
 <% end %>
     

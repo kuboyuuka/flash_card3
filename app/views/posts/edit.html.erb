@@ -6,12 +6,19 @@
     <%= form.text_field :mean,:value => "#{@post.mean}"%>
     <p>類義語</p>
     <%= form.fields_for :synonyms do |synonym| %>
-    <%= form.text_field :synonym,:value => "#{@synonym.synonym}" %>
+        <%= form.text_field :synonym,:value => "#{@synonym.synonym}" %>
     <% end %>
     <p>タグ選択</p>
     <%= form.fields_for :posttags do |posttag| %>
-    <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{selected:"#{@tag.id}"} %>
+        <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{selected:"#{@tag.id}"} %>
     <% end %>
+    <p>画像</p>
+    <% if  @post.image? %>
+        <%= image_tag @post.image.to_s, size: 10*10 %>
+    <% else %>
+        <img src="/uploads/post/image/noimage.jpeg" width="150" height="100">
+    <%end%>
+    <%= form.file_field :image, :multipart => true, value: @post.image %>
     <%= form.submit %>
 <%end%>
 <%= link_to("戻る","/posts/index")%>

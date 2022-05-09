@@ -5,6 +5,7 @@
       <th>単語</th>
       <th>意味</th>
       <th>類義語</th>
+      <th>画像</th>
     </tr>
   </thead>
   <tbody>
@@ -12,16 +13,29 @@
       <td>
         <%if @tag != nil %>
         <%= @tag.name %>
+        <%else%>
+        <p></p>
         <% end %>
       </td>
       <td><%= @post.word%></td>
       <td><%= @post.mean%></td>
       <td>
-      <%if @synonym != nil %>
-      <%= @synonym.synonym%></td>
-      <%else%>
-      <%p ""%>
-      <%end%>
+      <%@synonyms = Synonym.where(post_id: @post.id) %>
+        <%@synonyms.each do |synonym|%>
+          <%if synonym != nil %>
+            <%= synonym.synonym%>
+          <%else%>
+            <p></p>
+          <%end%>
+        <%end%>
+      </td>
+      <td>
+      <% if  @post.image? %>
+        <%= image_tag @post.image.to_s, size: 10*10 %>
+      <% else %>
+        <img src="/uploads/post/image/noimage.jpeg" width="150" height="100">
+      <% end %>
+      </td>
     </tr>
   </tbody>
 </table>

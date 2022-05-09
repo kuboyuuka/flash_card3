@@ -7,16 +7,15 @@ class PostsController < ApplicationController
       @post = Post.new
       @synonym = @post.synonyms.build
       @tags = Tag.all
-      @tag = Tag.new
       @postags = PostTag.all
     end
   
     def create
       @post = Post.new(post_params)
       @post.user_id = @current_user.id
-      @postag = PostTag.find_by(tag_id: params[:tag_id])
-      @tags = Tag.all
       if @post.save
+         @postag = PostTag.new(tag_id: params[:post][:tag_id],post_id: @post.id)
+         @postag.save
          redirect_to("/posts/index")
       else
         p @post.errors.full_messages
@@ -29,9 +28,9 @@ class PostsController < ApplicationController
         :word, 
         :mean, 
         :user_id, 
-        :description,
-        tags_attributes: [:tag], 
-        synonym_attributes: [:synonym, :_destroy]
+        :tag_id, 
+        :image,
+        synonyms_attributes: [:synonym]
       )
     end
 
@@ -59,6 +58,7 @@ class PostsController < ApplicationController
       @post = Post.find_by(id: params[:id])
       @post.word = params[:word]
       @post.mean = params[:mean]
+      @post.image = params[:image]
       @postag = PostTag.find_by(post_id: @post.id)
       @postag.tag_id = params[:tag_id]
       @synonym = Synonym.find_by(post_id: @post.id)
@@ -77,6 +77,7 @@ class PostsController < ApplicationController
       @post = Post.find_by(id: params[:id])
       @user = @post.user_id
       @postag = PostTag.find_by(post_id: @post.id)
+      @synonyms = Synonym.where(post_id: @post.id)
       if @postag.nil?
         p ""
       else
