@@ -2,6 +2,7 @@
     <%= f.text_field :keyword, placeholder:"検索する", class:"search-input" %>
     <%= f.submit "検索", class: "search-btn" %>
 <% end %>
+<%= link_to "CSV出力", posts_index_path(format: :csv), class: "btn btn-primary" %>
 <table>
   <thead>
     <tr>
@@ -21,7 +22,7 @@
         <%if postag.tag_id != nil %>
           <%@tags = Tag.where(id: postag.tag_id)%>
           <%@tags.each do |tag|%>
-            <%= link_to(tag.name,"/posts/#{post.id}") %>
+            <%= link_to(tag.name,"/tags/#{tag.id}/show") %>
           <% end %>
         <% end %>
       <% end %>

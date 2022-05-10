@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
 
+  require "csv"
+
     def ranking
     end
   
@@ -35,13 +37,13 @@ class PostsController < ApplicationController
     end
 
     def search
-      @posts = Synonym.includes(:posts).references(:posts)
-      @synonyms = Synonym.search(:keyword)
+        @posts = Post.search(params[:keyword])
+        @synonyms = Synonym.search(params[:keyword])
+        @tags = Tag.search(params[:keyword])
     end
   
     def index
       @posts = Post.all.order(created_at: :desc)
-      @posts = Post.all.search(params[:search])
       @postags = PostTag.all
       @synonyms = Synonym.all
     end

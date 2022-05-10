@@ -1,6 +1,4 @@
 class Post < ActiveRecord::Base
-  #include ActiveModel::Model
-  #attr_accessor :name, :word, :mean, :tag_id
 
   validates :word, {presence: true}
   validates :mean, {presence: true}
@@ -12,14 +10,14 @@ class Post < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 
   scope :search, -> (keyword) {
-    where('title like :q OR name like :q',q: "%#{keyword}%") if keyword.present?
+    where('title like :q OR name like :q',q: "#{keyword}") if keyword.present?
    }
 
   def self.search(search)
     if search
-      where(["word LIKE ? OR mean LIKE ?", "%#{search}%", "%#{search}%"])
+      Post.where(["word LIKE ? OR mean LIKE ?", "#{search}", "#{search}"])
     else
-      all
+      Post.all
     end
   end
 

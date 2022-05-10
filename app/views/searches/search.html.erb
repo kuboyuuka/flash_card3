@@ -1,12 +1,11 @@
-<% @tags.each do |tag| %>
-<h1><%= tag.name %></h1>
-    <tr>
-      <th>単語</th>
-      <th>意味</th>
-      <th>類義語</th>
-    </tr>
-    <tr>
-      <% @postags = PostTag.where(tag_id: tag.id) %>
+<tr>
+    <th>タグ</th>
+    <th>単語</th>
+    <th>意味</th>
+    <th>類義語</th>
+</tr>
+<tr>
+    <% @postags = PostTag.where(tag_id: tag.id) %>
         <% @postags.each do |postag| %>
             <% @posts = Post.where(id: postag.post_id)%>
                 <% @posts.each do |post| %>
@@ -21,6 +20,5 @@
         
                     <% end %>
                 <% end %>
-            <% end %>
         <% end %>
-    </tr>
+</tr>

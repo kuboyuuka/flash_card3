@@ -1,13 +1,15 @@
 class Synonym < ActiveRecord::Base
     belongs_to :post
 
-    class << self
-        def search(search)
-            if search
-                where(["synonym LIKE ?", "%#{search}%"])
-            else
-                all
-            end
+    scope :search, -> (keyword) {
+        where('title like :q OR name like :q',q: "#{keyword}") if keyword.present?
+       }
+
+    def self.search(search)
+        if search
+            Synonym.where(["synonym LIKE ?", "#{search}"])
+        else
+            Synonym.all
         end
     end
 

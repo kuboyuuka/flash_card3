@@ -1,5 +1,5 @@
-class SearchesController < PostsController
+class Posts::SearchesController < PostsController
   def search
-    @tags = Tag.search(params[:keyword])
+    @posts = Post.search(params[:keyword])
   end
 end

@@ -1,31 +1,73 @@
 <h1>検索結果</h1>
 <tr>
-    <th>タグ</th>
-    <th>単語</th>
-    <th>意味</th>
-    <th>類義語</th>
-</tr>
-<tr>
-    <% @synonyms.each do |synonym| %>
-        <% @posts.each do |post| %>
-            <% @postags = PostTag.where(post_id: post.id) %>
-                <% @postags.each do |postag| %>
-                    <% @tags = Tag.where(id: postag.tag_id)%>
-                        <% @tags.each do |tag| %>
-                            <td>
-                                <%if tag != nil %>
-                                    <%= link_to(tag.name, "/posts/#{postag.post_id}")%>
-                                <% end %>
-                            </td>
-                            <td><%= link_to(post.word, "/posts/#{postag.post_id}")%></td>
-                            <td><%= link_to(post.mean, "/posts/#{postag.post_id}") %></td>
-                            <td>
-                                <%if synonym != nil%>
-                                    <%= link_to(synonym.synonym, "/posts/#{postag.post_id}") %>
-                                <% end %>
-                            </td>
-                        <% end %>
-                <% end %>
+    <%if @tags.present?%>
+        <% @tags.each do |tag| %>
+            <h2><%= tag.name %></h2>
+            <th>単語</th>
+            <th>意味</th>
+            <th>類義語</th>
+        <%end%>
+        <%else%>
+        <th>タグ</th>
+        <th>単語</th>
+        <th>意味</th>
+        <th>類義語</th>
+    <%end%>
+    
+</tr><br>
+    <% @posts.each do |post| %>
+        <% post.post_tags.each do |post_tag| %>
+            <% post.tags.each do |tag| %>
+                <td>
+                    <%if tag != nil %>
+                        <%= link_to(tag.name, "/tags/#{tag.id}/show")%>
+                    <% end %>
+                </td>
+                <td><%= link_to(post.word, "/posts/#{post_tag.post_id}")%></td>
+                <td><%= link_to(post.mean, "/posts/#{post_tag.post_id}") %></td>
+                <td>
+                <% post.synonyms.each do |synonym| %>
+                    <%if synonym != nil%>
+                        <%= link_to(synonym.synonym, "posts/#{synonym.post_id}")%>
+                    <%end%>
+                <%end%>
+                </td>
+            <% end %>
         <% end %>
     <% end %>
+<tr>
+    <% @synonyms.each do |synonym| %>
+        <% @postag = PostTag.find_by(post_id: synonym.post_id)%>
+        <% @post = Post.find_by(id: @postag.post_id)%>
+        <% @tag = Tag.find_by(id: @postag.tag_id)%>
+        <td><%if @tag != nil %>
+            <%= link_to(@tag.name, "/tags/#{@tag.id}/show")%>
+            <% end %>
+        </td>
+        <td><%= link_to(@post.word,"/posts/#{@post.id}") %></td>
+        <td><%= link_to(@post.mean,"/posts/#{@post.id}") %></td>
+        <td><%= link_to(synonym.synonym,"/posts/#{@post.id}") %></td>
+    <%end%>
 </tr>
+<tr>
+    <% @tags.each do |tag| %>
+        <% @postags = PostTag.where(tag_id: tag.id) %>
+        <% @postags.each do |postag| %>
+            <% @posts = Post.where(id: postag.post_id)%>
+                <% @posts.each do |post| %>
+                    <td><%= link_to(post.word, "/posts/#{postag.post_id}")%></td>
+                    <td><%= link_to(post.mean, "/posts/#{postag.post_id}") %></td>
+            
+                <% @synonyms = Synonym.where(post_id: post.id) %>
+                    <% @synonyms.each do |synonym| %>
+                        <%if synonym != nil%>
+                            <td><%= link_to(synonym.synonym, "/posts/#{postag.post_id}") %></td><br>
+                        <% end %>
+        
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+    </tr>
+<br>
+<%= link_to "戻る", :back%>

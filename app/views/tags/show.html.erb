@@ -4,7 +4,7 @@
 <%= link_to("編集","/tags/#{@tag.id}/edit")%>
 <%= link_to("削除","/tags/#{@tag.id}/destroy") %>
 <% end %>
-<%= link_to("戻る","/tags/index")%>
+<%= link_to "戻る", :back%>
 <br>
 <% @posts.each do |post|%>
 <%= post.word %><br>

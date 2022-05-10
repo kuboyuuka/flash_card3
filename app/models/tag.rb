@@ -6,11 +6,16 @@ class Tag < ActiveRecord::Base
     has_many :posts,through: :post_tags
     has_many :post_tags
 
-    class << self
-        def search(search)
-            return Tag.all unless search
-            Tag.where('name LIKE(?)', "%#{search}%")
+    scope :search, -> (keyword) {
+        where('title like :q OR name like :q',q: "#{keyword}") if keyword.present?
+       }
+    
+      def self.search(search)
+        if search
+          Tag.where(["name LIKE ?", "#{search}"])
+        else
+          Tag.all
         end
-    end
+      end
 
 end
