@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_09_093744) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_10_224040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_09_093744) do
   end
 
   create_table "items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_books", force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "workbook_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -51,6 +58,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_09_093744) do
     t.string "image"
   end
 
+  create_table "records", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "workbook_id"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "synonyms", force: :cascade do |t|
     t.string "synonym"
     t.integer "post_id"
@@ -70,6 +85,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_09_093744) do
     t.string "name"
     t.string "email"
     t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "score"
+  end
+
+  create_table "workbooks", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "workbook"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
