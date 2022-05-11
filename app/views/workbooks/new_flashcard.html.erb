@@ -1,0 +1,18 @@
+<h1>第<%@count%>問</h1>
+<%= @post.word%>
+<br>
+<br>
+<p>類義語</p><%= @synonym%>
+<br>
+<%= form_with url:workbooks_flashcard_path, :remote => true do |form| %>
+<%= form.radio_button :answer, @array[0] %>
+<%= form.label :answer, @array[0] %>
+<%= form.radio_button :answer, @array[1] %>
+<%= form.label :answer, @array[1] %>
+<%= form.radio_button :answer, @array[2] %>
+<%= form.label :answer, @array[2] %>
+<br>
+<%= form.submit "次の問題へ"%>
+<% end %>
+
+<%= link_to "戻る", :back%>

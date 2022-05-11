@@ -1,0 +1,5 @@
+<h1>Ajaxを使ってみよう</h1>
+<%= form_tag(url_for(:action => 'index'), :remote => true) do %>
+    <%= text_field_tag :title %>
+    <%= submit_tag "タイトルを変更する" %>
+<% end %>

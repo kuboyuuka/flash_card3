@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'practice/index'
+  post 'practice/index'
+  
   get 'searches/search'
   get "posts/index" => "posts#index"
   get "login" => "users#login_form"
@@ -13,10 +16,8 @@ Rails.application.routes.draw do
   get "users/:id" => "users#show"
 
   get "posts/index" => "posts#index"
-  
 
   get "posts/wordmaster" => "posts#wordmaster"
-  get "posts/flashcard" => "posts#flashcard"
   get "posts/ranking" => "posts#ranking"
   get "posts/new" => "posts#new"
   post "posts/create" => "posts#create"
@@ -37,8 +38,12 @@ Rails.application.routes.draw do
   get "tags/:id/destroy" => "tags#destroy"
   get "search" => "tags#search"
 
+  get "workbooks/flashcard" => "workbooks#flashcard"
+  get "workbooks/ready" => "workbooks#ready"
+  get "workbooks/:id/new_flashcard" => "workbooks#new_flashcard"
 
   get "/"  => "home#top"
   get "about" => "home#about"
   get "main" => "home#main"
+  
 end
