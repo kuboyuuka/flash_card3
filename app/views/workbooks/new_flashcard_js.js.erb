@@ -1,0 +1,10 @@
+$("#count").html('<%= @count%>');
+$("#post").html('<%= @post%>');
+$("#synonym").html('<%= @synonym%>');
+
+$.ajax({
+    type: "POST",
+    url: '/wordbooks/new_flashcard_js',
+    data: {count:count},
+    dataType: "JSON",
+})

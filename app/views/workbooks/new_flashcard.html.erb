@@ -1,10 +1,28 @@
-<h1>第<%@count%>問</h1>
-<%= @post.word%>
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js?ver=1.12.4'></script>
+
+<script>
+//var count = 1;
+//var question = 0;
+//$(function(){
+    //$("#next").click(function(){
+        //$("#count").html("<% @count %>") += 1;
+        //$("#question").html("<% @question %>") += 1;
+        //console.log($("#count").html("<% @question %>"));
+        //count += 1;
+        //question += 1;
+        //console.log('count');
+    //});
+//});
+</script>
+
+<h1>第<span id = "count"><%= @count%></span>問</h1>
+<%= form_with url:"/workbooks/#{params[:id]}/new_flashcard_js" ,data: { turbo: false }, local: false do |form| %>
+<span id="post"><%= @post%></span>
 <br>
 <br>
-<p>類義語</p><%= @synonym%>
+<p>類義語</p><span id="synonym"><%= @synonym%></span>
 <br>
-<%= form_with url:workbooks_flashcard_path, :remote => true do |form| %>
 <%= form.radio_button :answer, @array[0] %>
 <%= form.label :answer, @array[0] %>
 <%= form.radio_button :answer, @array[1] %>
@@ -12,7 +30,9 @@
 <%= form.radio_button :answer, @array[2] %>
 <%= form.label :answer, @array[2] %>
 <br>
+<span id="next">
 <%= form.submit "次の問題へ"%>
+</span>
 <% end %>
 
 <%= link_to "戻る", :back%>

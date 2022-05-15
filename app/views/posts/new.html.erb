@@ -1,12 +1,12 @@
 <h1>新規単語登録画面</h1>
-<%= form_with model: @post, url: posts_create_path, local: true do |f| %>
+<%= form_with model: @post, url: posts_create_path, local: false do |f| %>
     <p>単語</p>
         <%= f.text_field :word %>
     <p>意味</p>
         <%= f.text_field :mean %>
     <p>類義語</p>
     <div id='synonyms'>
-        <%= f.fields_for :synonyms, local: true, id: 'js-log-field' do |synonym| %>
+        <%= f.fields_for :synonyms, id: 'js-log-field' do |synonym| %>
             <%= render 'synonym_fields', f: synonym %>
         <% end %>
         <div class='links'>
@@ -19,7 +19,7 @@
     <% end %>
     <p>画像</p>
     <%= f.file_field :image, :multipart => true %>
-    <input type="submit" value="登録">
+    <%= f.submit "登録"%>
 <% end %>
     
     <br>

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'practice/index'
   post 'practice/index'
-  
+
   get 'searches/search'
   get "posts/index" => "posts#index"
   get "login" => "users#login_form"
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get "workbooks/flashcard" => "workbooks#flashcard"
   get "workbooks/ready" => "workbooks#ready"
   get "workbooks/:id/new_flashcard" => "workbooks#new_flashcard"
+  post "workbooks/:id/new_flashcard_js" => "workbooks#new_flashcard_js"
 
   get "/"  => "home#top"
   get "about" => "home#about"

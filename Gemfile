@@ -84,3 +84,5 @@ gem 'jquery-rails'
 gem 'cocoon'
 
 gem 'kaminari'
+
+gem 'turbolinks'

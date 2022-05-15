@@ -6,6 +6,7 @@ class PostsController < ApplicationController
     end
   
     def new
+      
       @post = Post.new
       @synonym = @post.synonyms.build
       @tags = Tag.all
@@ -13,6 +14,7 @@ class PostsController < ApplicationController
     end
   
     def create
+      p request.xhr?
       @post = Post.new(post_params)
       @post.user_id = @current_user.id
       if @post.save
