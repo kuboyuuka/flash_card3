@@ -86,3 +86,5 @@ gem 'cocoon'
 gem 'kaminari'
 
 gem 'turbolinks'
+
+gem 'lograge'
