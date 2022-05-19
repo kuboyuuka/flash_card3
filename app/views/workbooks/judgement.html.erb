@@ -12,7 +12,7 @@
     <% @post_id = postbook.post_id %>
         <tr>
             <td>
-            <%= @post = Post.find_by(id: @post_id).word %>
+            <%= link_to @post = Post.find_by(id: @post_id).word, controller: :workbooks, action: :new_flashcard  %>
             </td>
             <td>
             <%= @answer = postbook.answer %>
@@ -31,6 +31,8 @@
     <%end%>
     </tbody>
 </table>
+
+<p>10点中<%= @score%>点！</p>
 
 <br>
 <%= link_to("新規登録","/posts/new")%><br>

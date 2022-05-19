@@ -1,7 +1,7 @@
 
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js?ver=1.12.4'></script>
 
-<h1>第<span id = "count"><%= $count%></span>問</h1>
+<h1>第<span id = "count"><%= @count%></span>問</h1>
 <%= form_with url:"/workbooks/#{params[:id]}/new_flashcard_js" ,data: { turbo: false }, local: false do |form| %>
 <span id="post"><%= @post.word%></span>
 <br>

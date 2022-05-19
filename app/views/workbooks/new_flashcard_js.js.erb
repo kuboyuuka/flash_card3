@@ -1,4 +1,4 @@
-$("#count").html('<%= $count%>');
+$("#count").html('<%= @count%>');
 $("#post").html('<%= @post.word%>');
 $("#synonym").html('<%= @synonym%>');
 $("#choice1").val("<%= @array[0]%>").html('<input type="radio" value="<%= @array[0]%>" name="answer" id="answer_<%= @array[0]%>"><label for="answer"><%= @array[0]%></label>');
