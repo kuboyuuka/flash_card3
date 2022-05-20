@@ -1,6 +1,14 @@
 <h1>単語帳</h1>
-<%= link_to '新しく単語帳を始める' , workbooks_ready_path %><br>
-<%= link_to('続きから',"#")%><br>
-<%= link_to('もう一度やる',"#")%><br>
-<%= link_to('回答を見る',"#")%><br>
+<%= link_to '新しく単語帳を始める' , workbooks_ready_path %><br><br>
+<% @scores.each do |score|%>
+    <%= "#{score} /10点" %><br>
+    <%if score != nil%>
+        <%= link_to "続きから", controller: :workbooks, action: :continue, id: @workbook_id, value: PostBook.find_by(workbook_id: @workbook_id).question_id%><br>
+        <%= link_to "もう一度やる", controller: :workbooks, action: :continue, id: @workbook_id, value:1 %><br><br>
+    <%else%>
+        <%= link_to "回答を見る", controller: :workbooks, action: :judgement %><br>
+        <%= link_to "もう一度やる", controller: :workbooks, action: :continue, id: @workbook_id, value:1 %><br><br>
+    <% end %>
+<% end %>
+
 <%= link_to("メニューへ戻る","/main")%>

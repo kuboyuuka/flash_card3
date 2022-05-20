@@ -2,6 +2,7 @@
 <table>
     <thead>
         <tr>
+        <th></th>
         <th>問題</th>
         <th>回答</th>
         <th>正解・不正解</th>
@@ -9,31 +10,27 @@
     </thead>
     <tbody>
     <% @postbooks.each do |postbook| %>
-    <% @post_id = postbook.post_id %>
         <tr>
             <td>
-            <%= link_to @post = Post.find_by(id: @post_id).word, controller: :workbooks, action: :new_flashcard  %>
+            <%= postbook.question_id %>
             </td>
             <td>
-            <%= @answer = postbook.answer %>
+            <%= Post.find_by(id: postbook.post_id).word %>
             </td>
             <td>
-            <span id="judge">
-            <%if postbook.judgment == "true"%>
-                <%@judge = "正解"%>
-            <%else%>
-                <%@judge = "不正解"%>
-            <%end%>
-            <%= @judge %>
-            </span>
+            <%= postbook.answer %>
+            </td>
+            <td>
+            <%= postbook.judgment %>
             </td>
         </tr>
-    <%end%>
+    <% end %>
     </tbody>
 </table>
 
 <p>10点中<%= @score%>点！</p>
 
 <br>
+<%= link_to("単語帳一覧へ", "/workbooks/flashcard")%><br>
 <%= link_to("新規登録","/posts/new")%><br>
 <%= link_to("メニューへ戻る","/main")%>

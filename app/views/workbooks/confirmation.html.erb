@@ -2,6 +2,7 @@
 <table>
     <thead>
         <tr>
+        <th></th>
         <th>問題</th>
         <th>回答</th>
         <th>正解・不正解</th>
@@ -9,13 +10,15 @@
     </thead>
     <tbody>
     <% @postbooks.each do |postbook| %>
-    <% @post_id = postbook.post_id %>
         <tr>
             <td>
-            <%= @post = Post.find_by(id: @post_id).word %>
+            <%= postbook.question_id %>
             </td>
             <td>
-            <%= @answer = postbook.answer %>
+            <%= link_to Post.find_by(id: postbook.post_id).word, controller: :workbooks, action: :continue, id: params[:id], value: postbook.question_id  %>
+            </td>
+            <td>
+            <%= postbook.answer %>
             </td>
             <td>
             </td>
@@ -24,8 +27,8 @@
     </tbody>
 </table>
 
-<%= link_to("採点する", "/workbooks/#{@post_id}/judgement")%>
-
+<%= link_to("採点する", "/workbooks/#{params[:id]}/judgement")%><br>
+<%= link_to "戻る", :back%>
 <br>
 <%= link_to("新規登録","/posts/new")%><br>
 <%= link_to("メニューへ戻る","/main")%>
