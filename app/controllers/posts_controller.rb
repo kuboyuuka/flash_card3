@@ -14,10 +14,9 @@ class PostsController < ApplicationController
     end
   
     def create
-      p request.xhr?
       @post = Post.new(post_params)
       @post.user_id = @current_user.id
-      if @post.save
+      if p @post.save
          @postag = PostTag.new(tag_id: params[:post][:tag_id],post_id: @post.id)
          @postag.save
          redirect_to("/posts/index")
@@ -34,7 +33,7 @@ class PostsController < ApplicationController
         :user_id, 
         :tag_id, 
         :image,
-        synonyms_attributes: [:synonym]
+        synonyms_attributes: [:id, :synonym]
       )
     end
 
@@ -53,27 +52,34 @@ class PostsController < ApplicationController
     def edit
       @tags = Tag.all
       @post = Post.find_by(id: params[:id])
-      @synonym = Synonym.find_by(post_id: params[:id])
-      @postag = PostTag.find_by(post_id: params[:id])
-      @tag = Tag.find_by(id: @postag.tag_id)
+      @synonym = @post.synonyms.build
+      if Synonym.find_by(post_id: params[:id]) != nil
+         @synonym = Synonym.find_by(post_id: params[:id])
+      end
+      if PostTag.find_by(post_id: params[:id]) != nil
+         @postag = PostTag.find_by(post_id: params[:id])
+         @tag = Tag.find_by(id: @postag.tag_id)
+      end
     end
   
     def update
+      @tags = Tag.all
       @post = Post.find_by(id: params[:id])
-      @post.word = params[:word]
-      @post.mean = params[:mean]
-      @post.image = params[:image]
-      @postag = PostTag.find_by(post_id: @post.id)
-      @postag.tag_id = params[:tag_id]
-      @synonym = Synonym.find_by(post_id: @post.id)
-      @synonym.synonym = params[:synonym]
-      if @post.save
-         @postag.save
-         @synonym.save
-         flash[:notice] = "タグを編集しました。"
-         redirect_to("/posts/index")
+      @post.update(post_params)
+      if   PostTag.find_by(post_id: params[:id]) != nil
+           @postag = PostTag.find_by(post_id: params[:id])
+           @postag.update(post_id: params[:id])
+      else 
+           @postag = PostTag.new(tag_id: params[:tag_id],post_id: @post.id)
+           @postag.save
+      end
+      if  @synonym = Synonym.find_by(post_id: @post.id)
+          @synonym.update(synonym: params[:post][:synonyms_attributes]["0"][:synonym])
+          binding.pry
+          flash[:notice] = "更新しました"
+          redirect_to("/posts/index")
       else
-        render("/posts/new")
+          render("/posts/edit")
       end
     end
   

@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   get "workbooks/continue" => "workbooks#continue"
   get "workbooks/:id/confirmation" => "workbooks#confirmation"
   get "workbooks/:id/judgement" => "workbooks#judgement"
+  get "workbooks/ranking" => "workbooks#ranking"
 
   get "/"  => "home#top"
   get "about" => "home#about"

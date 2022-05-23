@@ -1,12 +1,12 @@
 <h1>新規単語登録画面</h1>
-<%= form_with model: @post, url: posts_create_path, local: false do |f| %>
+<%= form_with model: @post, url: posts_create_path, method: :post do |f| %>
     <p>単語</p>
         <%= f.text_field :word %>
     <p>意味</p>
         <%= f.text_field :mean %>
     <p>類義語</p>
     <div id='synonyms'>
-        <%= f.fields_for :synonyms, id: 'js-log-field' do |synonym| %>
+        <%= f.fields_for :synonyms, local: true do |synonym| %>
             <%= render 'synonym_fields', f: synonym %>
         <% end %>
         <div class='links'>

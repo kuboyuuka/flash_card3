@@ -47,6 +47,7 @@ class WorkbooksController < ApplicationController
     def new_flashcard_js
         @answer_memory = PostBook.find_by(workbook_id: params[:id],question_id:params[:question_id])
         @answer_memory.update(answer: params[:answer])
+        @update_car = User.find_by(id: @current_user.id)
 
         judge_answer
 
@@ -98,9 +99,10 @@ class WorkbooksController < ApplicationController
             @array = [@choice[0], @choice[1],@word.mean].shuffle
             p params
     elsif   params[:commit] == "前の問題へ"
+        binding.pry
             p "----------------------------------"
             @id_update = PostBook.find_by(question_id: params[:id])
-            p @id_update.update(question_id: @question-1)
+            p @id_update.update(question_id: @question.question_id-1)
             p @post = @posts[@question]
             judge_synonym
             choices_answer
@@ -115,10 +117,19 @@ class WorkbooksController < ApplicationController
             @scoring = @postbooks.where(judgment:"正解").count
             @score = Record.find_by(workbook_id: params[:id])
             @score.update(score: @scoring)
+            @yourworkbooks = Workbook.where(user_id: @current_user.id)
+            @denominations = @yourworkbooks.count * 10
+            @yourrecords = Record.where(user_id: @current_user.id).where(`score: \d{1} or score: \d{2}`)
+            @molecule = @yourrecords.pluck(:score).compact.sum
+            @car = (@molecule.to_f / @denominations.to_f * 100).to_i
+            @update_car.update(car: @car)
             respond_to do |format|
                 format.js {render ajax_redirect_to( "/workbooks/#{params[:id]}/confirmation")} 
             end
     else
+        if  @update_car.score == nil
+            @update_car.update(car: 0)
+        end
         respond_to do |format|
             format.js {render ajax_redirect_to( "/workbooks/flashcard")} 
         end
@@ -199,5 +210,15 @@ class WorkbooksController < ApplicationController
         @choice = @choices.pluck(:mean)
         @array = [@choice[0], @choice[1],@word.mean].shuffle
         @button = "次の問題へ"
+    end
+
+    def ranking
+        @users = User.all
+        @yourworkbooks = Workbook.where(user_id: @current_user.id)
+        @denominations = @yourworkbooks.count * 10
+        @yourrecords = Record.where(user_id: @current_user.id).where(`score: \d{1} or score: \d{2}`)
+        @molecule = @yourrecords.pluck(:score).compact.sum
+        @car = (@molecule.to_f / @denominations.to_f * 100).to_i
+        @rankings = User.order(car: :desc)
     end
 end
