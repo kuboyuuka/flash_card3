@@ -99,13 +99,18 @@ class WorkbooksController < ApplicationController
             @array = [@choice[0], @choice[1],@word.mean].shuffle
             p params
     elsif   params[:commit] == "前の問題へ"
-        binding.pry
             p "----------------------------------"
-            @id_update = PostBook.find_by(question_id: params[:id])
-            p @id_update.update(question_id: @question.question_id-1)
-            p @post = @posts[@question]
-            judge_synonym
-            choices_answer
+            @word = Post.find_by(id: @question.post_id)
+        if  @word.synonyms.exists?
+            @synonym = @word.synonyms.pluck(:synonym)
+        else
+            ""
+        end
+            @except = Post.select{ |post| post[:mean] != @word.mean }
+            @choices = @except.sample(2)
+            @choice = @choices.pluck(:mean)
+            @array = [@choice[0], @choice[1],@word.mean].shuffle
+            p params
             p "----------------------------------"
 
     elsif   params[:commit] == "採点する"
@@ -135,24 +140,6 @@ class WorkbooksController < ApplicationController
         end
         end
 
-    end
-
-    def new_flashcard_back
-        workbook_temp
-        @question =  Workbook.find_by(id: params[:id]).question_id
-        i = 0
-        if  params[:commit] ==  "前の問題へ"
-            i  += 1
-        else
-            i = 0
-        end
-        if  i == 1
-            @question -= 2
-        elsif i > 1
-            @question -= 1
-        end
-        @id_update = Workbook.find_by(id: params[:id])
-        @id_update.update(question_id: @question)
     end
 
     def judge_synonym
@@ -220,5 +207,6 @@ class WorkbooksController < ApplicationController
         @molecule = @yourrecords.pluck(:score).compact.sum
         @car = (@molecule.to_f / @denominations.to_f * 100).to_i
         @rankings = User.order(car: :desc)
+        @rank = User.find_by(id: @current_user.id).rank
     end
 end

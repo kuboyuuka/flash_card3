@@ -1,8 +1,3 @@
-<style type="text/css">
- #self {
-     font-color:#ff8c00;
- }
-</style>
 <h1>ランキング</h1>
 <p>お疲れ様でした！<p><br>
 <%= "あなたの成績は、#{@denominations}問中 #{@molecule}問正解 正解率#{@car}%で#{@rank}位でした！" %><br>
@@ -14,27 +9,27 @@
       <th>正解率</th>
     </tr>
   </thead>
-  <tbody>
     <% @rankings.each_with_index do | ranking, inx | %>
-        <% inx += 1 %>
-        <% if ranking.id == @current_user.id%>
-            <div class="self">
-                <tr>
-                <td>
-                <% inx %>
-                </td>
-                <td><%= ranking.name %></td>
-                <td><%= ranking.car %></td>
-            </div>
-        <% else %>
+      <% inx += 1 %>
+      <% @user = User.find_by(id: ranking.id)%>
+      <% @user.update(rank: inx)%>
+      <% if ranking.id == @current_user.id%>
+        <tbody>
+          <tr>
             <td>
-            <% inx %>
+            <span style="color:#ff8c00"><%= inx %></span>
+            </td>
+            <td><span style="color:#ff8c00"><%= ranking.name %></span></td>
+            <td><span style="color:#ff8c00"><%= ranking.car %></span></td>
+      <% else %>
+            <td>
+            <%= inx %>
             </td>
             <td><%= ranking.name %></td>
             <td><%= ranking.car %></td>
-        <% end %>
-    <% end %>
+      <% end %>
   </tbody>
+  <% end %>
 </table>
 
 <%= link_to("メニューへ戻る","/main")%>
