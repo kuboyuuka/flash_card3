@@ -9,5 +9,8 @@ class User < ApplicationRecord
     validates :email, {presence:true,uniqueness:true}
     validates :password, {presence:true,length: {minimum: 6},allow_nil:true,confirmation:true}
     validates :password_confirmation, {confirmation: true,allow_nil: true}
-    
+
+    def name
+      [name].join('')
+    end
 end
