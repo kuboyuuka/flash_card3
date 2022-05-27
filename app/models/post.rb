@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
 
-  validates :word, {presence: true}
-  validates :mean, {presence: true}
+  validates :word, {presence: true,uniqueness: true}
+  validates :mean, {presence: true,uniqueness: true}
   validates_associated :synonyms
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags

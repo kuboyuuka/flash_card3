@@ -6,11 +6,8 @@ class User < ApplicationRecord
     has_many :records, dependent: :destroy
     has_many :workbooks, dependent: :destroy
     validates :name,{presence:true}
-    validates :email, {presence:true,uniqueness:true}
+    validates :email, {presence: true,uniqueness: true}
     validates :password, {presence:true,length: {minimum: 6},allow_nil:true,confirmation:true}
     validates :password_confirmation, {confirmation: true,allow_nil: true}
 
-    def name
-      [name].join('')
-    end
 end
