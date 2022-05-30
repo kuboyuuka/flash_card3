@@ -4,8 +4,9 @@ FactoryBot.define do
       it "does not allow duplicate post" do
         user = User.create(
           name: "久保優花",
-          email: "coco_rara_0309@icloud.com",
+          email: "cocococo",
           password: "123456789",
+          password_confirmation: "123456789"
         )
 
         user.posts.create(

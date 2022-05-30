@@ -91,3 +91,5 @@ gem 'kaminari'
 gem 'turbolinks'
 
 gem 'lograge'
+
+gem 'faker'
