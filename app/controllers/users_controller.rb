@@ -11,10 +11,11 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(name: params[:name],email: params[:email],password: params[:password],password_confirmation: params[:password_confirmation])
-    if @user.save
+    p @user
+     if @user.save
       flash[:notice] = "#{@user.name}さん、単語帳へようこそ！"
       UserMailer.with(user: @user).send_when_signup.deliver_later
-      redirect_to("/main")
+      redirect_to("/login")
     else
       p @user.errors.full_messages
       render("users/new")

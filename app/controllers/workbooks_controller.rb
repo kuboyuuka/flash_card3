@@ -201,12 +201,13 @@ class WorkbooksController < ApplicationController
 
     def ranking
         @users = User.all
+        @notniluser = @users.reject {|user| user.car == nil}
         @yourworkbooks = Workbook.where(user_id: @current_user.id)
         @denominations = @yourworkbooks.count * 10
         @yourrecords = Record.where(user_id: @current_user.id).where(`score: \d{1} or score: \d{2}`)
         @molecule = @yourrecords.pluck(:score).compact.sum
         @car = (@molecule.to_f / @denominations.to_f * 100).to_i
-        @rankings = User.order(car: :desc)
+        @rankings = User.order(car: :asc)
         @rank = User.find_by(id: @current_user.id).rank
     end
 end

@@ -15,7 +15,7 @@
     </div>
     <p>タグ選択</p>
     <%= f.fields_for :posttags do |posttag| %>
-        <%= f.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:1} %>
+        <%= f.select :tag_id, @tags.map{ |tag| [tag.tag, tag.id]},{include_blank:true,selected:0} %>
     <% end %>
     <p>画像</p>
     <%= f.file_field :image, :multipart => true %>

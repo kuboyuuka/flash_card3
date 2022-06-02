@@ -5,7 +5,7 @@ class TagsController < PostsController
   end
 
   def create
-    @tag = Tag.new(name: params[:name],user_id: @current_user.id)
+    @tag = Tag.new(tag: params[:name],user_id: @current_user.id)
     if @tag.save
       redirect_to("/tags/index")
     else
@@ -32,7 +32,7 @@ class TagsController < PostsController
 
   def update
     @tag = Tag.find_by(id: params[:id])
-    @tag.name = params[:name]
+    @tag.tag = params[:name]
     if @tag.save
       flash[:notice] = "タグを編集しました。"
       redirect_to("/tags/index")

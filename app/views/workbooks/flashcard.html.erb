@@ -1,14 +1,28 @@
 <h1>単語帳</h1>
 <%= link_to '新しく単語帳を始める' , workbooks_ready_path %><br><br>
-<% @scores.each do |score|%>
-    <%= "#{score} /10点" %><br>
-    <%if score == nil%>
-        <%= link_to "続きから", controller: :workbooks, action: :continue, id: @workbook_id %><br>
-        <%= link_to "もう一度やる", controller: :workbooks, action: :continue, id: @workbook_id %><br><br>
-    <%else%>
-        <%= link_to "回答を見る", controller: :workbooks, action: :judgement, id: @workbook_id %><br>
-        <%= link_to "もう一度やる", controller: :workbooks, action: :continue, id: @workbook_id %><br><br>
-    <% end %>
-<% end %>
+<table>
+  <thead>
+    <tr>
+        <th>単語帳</th>
+        <th></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @scores.each do |score|%>
+    <tr>
+        <td><%= "#{score} /10点" %></td>
+        <td>
+            <%if score == nil%>
+                <%= link_to "続きから", controller: :workbooks, action: :continue, id: @workbook_id %>
+            <%else%>
+                <%= link_to "回答を見る", controller: :workbooks, action: :judgement, id: @workbook_id %>
+            <%end%>
+        </td>
+        <td>
+        <%= link_to "もう一度やる", controller: :workbooks, action: :new_flashcard, id: @workbook_id %>
+        </td>
+    </tr>
+    <% end %><br>
 
 <%= link_to("メニューへ戻る","/main")%>

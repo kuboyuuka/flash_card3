@@ -16,9 +16,9 @@
     <p>タグ選択</p>
     <%= form.fields_for :posttags do |posttag| %>
     <%if @tag.present? %>
-        <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:"#{@tag.id}"} %>
+        <%= form.select :tag_id, @tags.map{ |tag| [tag.tag, tag.id]},{include_blank:true,selected:"#{@tag.id}"} %>
     <%else%>
-        <%= form.select :tag_id, @tags.map{ |tag| [tag.name, tag.id]},{include_blank:true,selected:1} %>
+        <%= form.select :tag_id, @tags.map{ |tag| [tag.tag, tag.id]},{include_blank:true,selected:1} %>
     <% end %>
     <% end %>
     <p>画像</p>

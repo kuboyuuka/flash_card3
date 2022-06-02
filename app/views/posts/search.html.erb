@@ -2,7 +2,7 @@
 <tr>
     <%if @tags.present?%>
         <% @tags.each do |tag| %>
-            <h2><%= tag.name %></h2>
+            <h2><%= tag.tag %></h2>
             <th>単語</th>
             <th>意味</th>
             <th>類義語</th>
@@ -20,7 +20,7 @@
             <% post.tags.each do |tag| %>
                 <td>
                     <%if tag != nil %>
-                        <%= link_to(tag.name, "/tags/#{tag.id}/show")%>
+                        <%= link_to(tag.tag, "/tags/#{tag.id}/show")%>
                     <% end %>
                 </td>
                 <td><%= link_to(post.word, "/posts/#{post_tag.post_id}")%></td>
@@ -41,7 +41,7 @@
         <% @post = Post.find_by(id: @postag.post_id)%>
         <% @tag = Tag.find_by(id: @postag.tag_id)%>
         <td><%if @tag != nil %>
-            <%= link_to(@tag.name, "/tags/#{@tag.id}/show")%>
+            <%= link_to(@tag.tag, "/tags/#{@tag.id}/show")%>
             <% end %>
         </td>
         <td><%= link_to(@post.word,"/posts/#{@post.id}") %></td>

@@ -6,7 +6,6 @@ class PostsController < ApplicationController
     end
   
     def new
-      
       @post = Post.new
       @synonym = @post.synonyms.build
       @tags = Tag.all
@@ -17,11 +16,19 @@ class PostsController < ApplicationController
       @post = Post.new(post_params)
       @post.user_id = @current_user.id
       if p @post.save
-         @postag = PostTag.new(tag_id: params[:post][:tag_id],post_id: @post.id)
+         @postag = PostTag.create(post_id: @post.id)
+         p @postag.errors.full_messages
+         p @post.errors
          @postag.save
+         if params[:post][:tag_id] != nil
+          @tagsave = PostTag.find_by(post_id: @post.id)
+          @tagsave.update(tag_id: params[:post][:tag_id])
+         end
          redirect_to("/posts/index")
       else
+        p 123
         p @post.errors.full_messages
+        p @post.errors
         render("posts/new")
       end
     end
@@ -63,19 +70,17 @@ class PostsController < ApplicationController
     end
   
     def update
-      @tags = Tag.all
       @post = Post.find_by(id: params[:id])
       @post.update(post_params)
       if   PostTag.find_by(post_id: params[:id]) != nil
            @postag = PostTag.find_by(post_id: params[:id])
-           @postag.update(post_id: params[:id])
+           @postag.update(tag_id: params[:post][:tag_id])
       else 
            @postag = PostTag.new(tag_id: params[:tag_id],post_id: @post.id)
            @postag.save
       end
       if  @synonym = Synonym.find_by(post_id: @post.id)
           @synonym.update(synonym: params[:post][:synonyms_attributes]["0"][:synonym])
-          binding.pry
           flash[:notice] = "更新しました"
           redirect_to("/posts/index")
       else

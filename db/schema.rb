@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_23_062446) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_01_133320) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_062446) do
 
   create_table "post_tags", force: :cascade do |t|
     t.bigint "post_id", null: false
-    t.bigint "tag_id", null: false
+    t.bigint "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id", "tag_id"], name: "index_post_tags_on_post_id_and_tag_id", unique: true
@@ -55,9 +55,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_062446) do
     t.string "word"
     t.string "mean"
     t.integer "user_id"
+    t.integer "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "tag_id"
     t.string "image"
   end
 
@@ -77,10 +77,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_062446) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.integer "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
+    t.string "tag"
+    t.integer "post_id"
     t.integer "user_id"
   end
 
