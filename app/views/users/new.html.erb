@@ -3,11 +3,11 @@
         <%= message %>
     <% end %>
     <%= form_tag("/users/create") do%>
-        <p>name</p>
+        <p>名前</p>
             <input name="name" value="<%= @user.name %>">
-        <p>email</p>
+        <p>メールアドレス</p>
             <input name="email" value="<%= @user.email %>">
-        <p>password</p>
+        <p>パスワード</p>
             <input type="password" name="password">
             <br>
             <input type="password" name="password_confirmation">

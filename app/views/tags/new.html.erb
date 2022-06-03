@@ -1,4 +1,7 @@
 <h1>新規タグ登録画面</h1>
+<% @tag.errors.full_messages.each do |message| %>
+        <%= message %>
+    <% end %>
 <%= form_tag("/tags/create", method: :post) do %>
     <p>タグ</p>
     <textarea name="name"></textarea>

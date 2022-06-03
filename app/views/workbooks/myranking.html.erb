@@ -1,0 +1,34 @@
+<h1>ランキング</h1>
+<p>お疲れ様でした！<p><br>
+<%= "あなたの成績は、#{@denominations}問中 #{@yourrecords}問正解 正解率#{@car}%で#{@rank}位でした！" %><br>
+<table>
+  <thead>
+    <tr>
+      <th>順位</th>
+      <th>名前</th>
+      <th>正解率</th>
+    </tr>
+  </thead>
+    <% @rankings.each_with_index do | ranking, inx | %>
+      <% inx += 1 %>
+      <% @rank = inx %>
+      <% if ranking.id == @current_user.id%>
+        <tbody>
+          <tr>
+            <td>
+            <span style="color:#ff8c00"><%= inx %></span>
+            </td>
+            <td><span style="color:#ff8c00"><%= ranking.name %></span></td>
+            <td><span style="color:#ff8c00"><%= @car %>%</span></td>
+      <% else %>
+            <td>
+            <%= @rank %>
+            </td>
+            <td><%= ranking.name %></td>
+            <td><%= ranking.car %>%</td>
+      <% end %>
+  </tbody>
+  <% end %>
+</table>
+
+<%= link_to("メニューへ戻る","/main")%>

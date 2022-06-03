@@ -18,7 +18,7 @@ class UsersController < ApplicationController
       redirect_to("/login")
     else
       p @user.errors.full_messages
-      render("users/new")
+      render :new,  status: :unprocessable_entity
     end
   end
 
@@ -32,10 +32,11 @@ class UsersController < ApplicationController
       flash[:notice] = "ログインしました"
       redirect_to("/main")
     else
-      @error_message = "メールアドレスまたはパスワードが間違っています"
+      p 123456
+      p @user.errors.full_messages
       @email = params[:email]
       @password = params[:password]
-      render("users/login_form")
+      render :login_form, status: :unprocessable_entity
     end
   end
 

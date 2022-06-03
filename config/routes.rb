@@ -44,10 +44,12 @@ Rails.application.routes.draw do
   post "workbooks/:id/new_flashcard_js" => "workbooks#new_flashcard_js"
   post "workbooks/:id/new_flashcard_back" => "workbooks#new_flashcard_back"
   get "workbooks/choices" => "workbooks#choices"
+  get "workbooks/onemore" => "workbooks#onemore"
   get "workbooks/continue" => "workbooks#continue"
   get "workbooks/:id/confirmation" => "workbooks#confirmation"
   get "workbooks/:id/judgement" => "workbooks#judgement"
   get "workbooks/ranking" => "workbooks#ranking"
+  get "workbooks/myranking" => "workbooks#myranking"
 
   get "/"  => "home#top"
   get "about" => "home#about"

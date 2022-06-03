@@ -7,9 +7,8 @@ class WorkbooksController < ApplicationController
     def flashcard
         @records = Record.where(user_id: @current_user.id)
         @scores = @records.pluck(:score)
-        @records.each do |record|
-            @workbook_id = record.workbook_id
-        end
+        @workbooks = @records.pluck(:workbook_id)
+        @array = @scores.zip(@workbooks)
     end
 
     def ready
@@ -18,12 +17,12 @@ class WorkbooksController < ApplicationController
             if  @workbook.save
                 @record = Record.new(user_id: @current_user.id, workbook_id: @workbook.id)
                 @record.save
-                @except = Post.select{ |post| post.id != 166 || post.id != 165}
-                @randomwords = @except.sample(10)
+                @posts = Post.all
+                @randomwords = @posts.sample(10)
                 @randomwords.each_with_index do |randomword, idx|
                     idx += 1
                     @randomword = randomword.word
-                        @postbook = PostBook.new(post_id: randomword.id,workbook_id: @workbook.id,question_id: idx).save
+                        PostBook.new(post_id: randomword.id,workbook_id: @workbook.id,question_id: idx).save
                 end
             end
     end
@@ -47,9 +46,6 @@ class WorkbooksController < ApplicationController
     def new_flashcard_js
         @answer_memory = PostBook.find_by(workbook_id: params[:id],question_id:params[:question_id])
         @answer_memory.update(answer: params[:answer])
-        @update_car = User.find_by(id: @current_user.id)
-
-        judge_answer
 
         @count = params[:question_id].to_i
         if @count < 10
@@ -85,8 +81,6 @@ class WorkbooksController < ApplicationController
             @answer_memory = PostBook.find_by(workbook_id: params[:id],question_id: params[:question_id])
             @answer_memory.update(answer: params[:answer])
 
-            judge_answer
-
             @word = Post.find_by(id: @question.post_id)
         if  @word.synonyms.exists?
             @synonym = @word.synonyms.pluck(:synonym)
@@ -117,29 +111,43 @@ class WorkbooksController < ApplicationController
             @answer_memory = PostBook.find_by(workbook_id: params[:id],question_id: params[:question_id])
             @answer_memory.update(answer: params[:answer])
             
-            judge_answer
-            @postbooks = PostBook.where(workbook_id: params[:id])
-            @scoring = @postbooks.where(judgment:"正解").count
-            @score = Record.find_by(workbook_id: params[:id])
-            @score.update(score: @scoring)
-            @yourworkbooks = Workbook.where(user_id: @current_user.id)
-            @denominations = @yourworkbooks.count * 10
-            @yourrecords = Record.where(user_id: @current_user.id).where(`score: \d{1} or score: \d{2}`)
-            @molecule = @yourrecords.pluck(:score).compact.sum
-            @car = (@molecule.to_f / @denominations.to_f * 100).to_i
-            @update_car.update(car: @car)
             respond_to do |format|
                 format.js {render ajax_redirect_to( "/workbooks/#{params[:id]}/confirmation")} 
             end
-    else
-        if  @update_car.score == nil
-            @update_car.update(car: 0)
-        end
-        respond_to do |format|
-            format.js {render ajax_redirect_to( "/workbooks/flashcard")} 
-        end
+        else
+            respond_to do |format|
+                format.js {render ajax_redirect_to( "/workbooks/flashcard")} 
+            end
+
         end
 
+    end
+
+    def judgement
+        @postbooks = PostBook.where(workbook_id: params[:id]).sort_by(&:question_id)
+        @update_car = User.find_by(id: @current_user.id)
+        @postbooks.each do |postbook|
+            if  postbook.answer == Post.find_by(id: postbook.post_id).mean
+                @answer_memory = PostBook.find_by(id: postbook.id)
+                @answer_memory.update(judgment: "正解")
+            elsif postbook.answer == nil
+                @answer_memory = PostBook.find_by(id: postbook.id)
+                @answer_memory.update(judgment: "未回答")
+            else
+                @answer_memory = PostBook.find_by(id: postbook.id)
+                @answer_memory.update(judgment: "不正解")
+            end
+        end
+        @scoring = @postbooks.pluck(:judgment)
+        @score = @scoring.count("正解")
+        @score_memory = Record.find_by(workbook_id: params[:id])
+        @score_memory.update(score: @score)
+        @yourworkbooks = Record.where(user_id: @current_user.id).pluck(:score).compact
+        @denominations = @yourworkbooks.count * 10
+        @yourrecords = @yourworkbooks.sum
+        binding.pry
+        @car = (@yourrecords.to_f / @denominations.to_f * 100).to_i
+        @update_car.update(car: @car)
     end
 
     def judge_synonym
@@ -148,16 +156,6 @@ class WorkbooksController < ApplicationController
             @synonym = @synonyms.pluck(:synonym)
         else
             ""
-        end
-    end
-    
-    def judge_answer
-        if  @answer_memory.answer == Post.find_by(id: @answer_memory.post_id).mean
-            @answer_memory.update(judgment: "正解")
-        elsif @answer_memory.answer == nil
-            @answer_memory.update(judgment: "未回答")
-        else
-            @answer_memory.update(judgment: "不正解")
         end
     end
 
@@ -176,17 +174,13 @@ class WorkbooksController < ApplicationController
         @postbooks = PostBook.where(workbook_id: params[:id]).sort_by(&:question_id)
     end
 
-    def judgement
-        @postbooks = PostBook.where(workbook_id: params[:id]).sort_by(&:question_id)
-        @score = Record.find_by(workbook_id: params[:id]).score
-    end
-
     def continue
         @questions = PostBook.where(workbook_id: params[:id],answer: nil)
         @question = @questions.min
         @count = @question.question_id
         workbook_temp #10問持ってきてる
         @word = Post.find_by(id: @question.post_id)
+        binding.pry
         if  @word.synonyms.exists?
             @synonym = @word.synonyms.pluck(:synonym)
         else
@@ -199,15 +193,40 @@ class WorkbooksController < ApplicationController
         @button = "次の問題へ"
     end
 
+    def onemore
+        @workbook = Workbook.new
+        @workbook.user_id = @current_user.id
+            if  @workbook.save
+                @record = Record.new(user_id: @current_user.id, workbook_id: @workbook.id)
+                @record.save
+                @prepostbooks = PostBook.where(workbook_id: params[:id])
+                @prepostbooks.each_with_index do |randomword, idx|
+                    idx += 1
+                    PostBook.new(post_id:randomword.post_id,workbook_id: @workbook.id,question_id: idx).save
+                end
+            end
+        redirect_to action: :new_flashcard, id: params[:id]
+    end
+
     def ranking
         @users = User.all
-        @notniluser = @users.reject {|user| user.car == nil}
-        @yourworkbooks = Workbook.where(user_id: @current_user.id)
+        @yourworkbooks = Record.where(user_id: @current_user.id).pluck(:score).compact
         @denominations = @yourworkbooks.count * 10
-        @yourrecords = Record.where(user_id: @current_user.id).where(`score: \d{1} or score: \d{2}`)
-        @molecule = @yourrecords.pluck(:score).compact.sum
-        @car = (@molecule.to_f / @denominations.to_f * 100).to_i
-        @rankings = User.order(car: :asc)
-        @rank = User.find_by(id: @current_user.id).rank
+        @yourrecords = @yourworkbooks.sum
+        @car = User.find_by(id: @current_user.id).car
+        @rankings = User.order(car: :desc) - User.where(car: nil)
+    end
+
+    def myranking
+        ranking
+        @rankings.each_with_index do | ranking, inx |
+            ranking.car if inx == 0 || ranking.car != @rankings[i - 1].car
+            if  ranking.car != ranking.car
+                
+            end
+            if ranking.id == @current_user.id
+               @rank = inx
+            end
+        end
     end
 end

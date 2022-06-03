@@ -1,6 +1,4 @@
 <h1>ランキング</h1>
-<p>お疲れ様でした！<p><br>
-<%= "あなたの成績は、#{@denominations}問中 #{@molecule}問正解 正解率#{@car}%で#{@rank}位でした！" %><br>
 <table>
   <thead>
     <tr>
@@ -11,8 +9,7 @@
   </thead>
     <% @rankings.each_with_index do | ranking, inx | %>
       <% inx += 1 %>
-      <% @user = User.find_by(id: ranking.id)%>
-      <% @user.update(rank: inx)%>
+      <% @rank = inx %>
       <% if ranking.id == @current_user.id%>
         <tbody>
           <tr>
@@ -23,7 +20,7 @@
             <td><span style="color:#ff8c00"><%= @car %>%</span></td>
       <% else %>
             <td>
-            <%= inx %>
+            <%= @rank %>
             </td>
             <td><%= ranking.name %></td>
             <td><%= ranking.car %>%</td>

@@ -9,20 +9,21 @@
     </tr>
   </thead>
   <tbody>
-  <% @scores.each do |score|%>
+  <% @array.each do |score, workbook|%>
     <tr>
         <td><%= "#{score} /10点" %></td>
         <td>
-            <%if score == nil%>
-                <%= link_to "続きから", controller: :workbooks, action: :continue, id: @workbook_id %>
+            <%if score == nil %>
+                <%= link_to "続きから", controller: :workbooks, action: :continue, id: workbook %>
             <%else%>
-                <%= link_to "回答を見る", controller: :workbooks, action: :judgement, id: @workbook_id %>
+                <%= link_to "回答を見る", controller: :workbooks, action: :judgement, id: workbook %>
             <%end%>
         </td>
         <td>
-        <%= link_to "もう一度やる", controller: :workbooks, action: :new_flashcard, id: @workbook_id %>
+        <%= link_to "もう一度やる", controller: :workbooks, action: :onemore, id: workbook %>
         </td>
     </tr>
-    <% end %><br>
-
+    <% end %>
+  </tbody>
+</table><br>
 <%= link_to("メニューへ戻る","/main")%>

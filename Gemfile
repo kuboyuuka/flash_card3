@@ -93,3 +93,5 @@ gem 'turbolinks'
 gem 'lograge'
 
 gem 'faker'
+
+gem 'rails-i18n'

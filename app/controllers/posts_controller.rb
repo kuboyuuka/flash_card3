@@ -1,5 +1,8 @@
 class PostsController < ApplicationController
 
+  before_action :authenticated_user
+  before_action :ensure_correct_user, {only:[:edit,:update,:destroy]}
+
   require "csv"
 
     def ranking
@@ -15,10 +18,8 @@ class PostsController < ApplicationController
     def create
       @post = Post.new(post_params)
       @post.user_id = @current_user.id
-      if p @post.save
+      if @post.save
          @postag = PostTag.create(post_id: @post.id)
-         p @postag.errors.full_messages
-         p @post.errors
          @postag.save
          if params[:post][:tag_id] != nil
           @tagsave = PostTag.find_by(post_id: @post.id)
@@ -26,10 +27,9 @@ class PostsController < ApplicationController
          end
          redirect_to("/posts/index")
       else
-        p 123
         p @post.errors.full_messages
-        p @post.errors
-        render("posts/new")
+        @tags = Tag.all
+        render :new, status: :unprocessable_entity
       end
     end
 
@@ -104,7 +104,15 @@ class PostsController < ApplicationController
     def destroy
       @post = Post.find_by(id: params[:id])
       if @post.destroy
-      redirect_to("/posts/index")
+         redirect_to("/posts/index")
+      end
+    end
+
+    def ensure_correct_user
+      @post = Post.find_by(id: params[:id])
+      if @post.user_id != @current_user.id
+         flash[:notice] = "権限がありません"
+         redirect_to("/posts/index")
       end
     end
   end

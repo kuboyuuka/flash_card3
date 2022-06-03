@@ -9,7 +9,8 @@ class TagsController < PostsController
     if @tag.save
       redirect_to("/tags/index")
     else
-      render:tag_new
+      p @tag.errors.full_messages
+      render :new, status: :unprocessable_entity
     end
   end
 
