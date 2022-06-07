@@ -7,26 +7,56 @@
       <th>正解率</th>
     </tr>
   </thead>
-    <% @rankings.each_with_index do | ranking, inx | %>
-      <% inx += 1 %>
-      <% @rank = inx %>
-      <% if ranking.id == @current_user.id%>
+  <%@tie = 0%>
+  <%@rank = 1%>
+    <% @rankings.each.with_index(1) do | ranking, i | %>
+      <%if i == 1 %>
+        <%@tie = ranking.car %>
+      <% end %>
+      <%if ranking.car != @tie %>
+        <% @rank = i %>
+        <% if ranking.id == @current_user.id%>
+    <%# @rankings.each_with_index do | ranking, inx | %>
+      <%# inx += 1 %>
+      <%# @rank = inx %>
+      <%# if ranking.id == @current_user.id %>
         <tbody>
-          <tr>
-            <td>
-            <span style="color:#ff8c00"><%= inx %></span>
-            </td>
-            <td><span style="color:#ff8c00"><%= ranking.name %></span></td>
-            <td><span style="color:#ff8c00"><%= @car %>%</span></td>
+            <tr>
+              <td>
+              <span style="color:#ff8c00"><%= "#{@rank}位" %></span>
+              </td>
+              <td><span style="color:#ff8c00"><%= ranking.name %></span></td>
+              <td><span style="color:#ff8c00"><%= @car %>%</span></td>
+        <% else %>
+              <td>
+              <%= "#{@rank}位" %>
+              </td>
+              <td><%= ranking.name %></td>
+              <td><%= ranking.car %>%</td>
+        <% end %>
+        <% @tie = ranking.car %>
       <% else %>
-            <td>
-            <%= @rank %>
-            </td>
-            <td><%= ranking.name %></td>
-            <td><%= ranking.car %>%</td>
+        <% @tie = ranking.car %>
+        <% if ranking.id == @current_user.id%>
+          <tbody>
+            <tr>
+              <td>
+              <span style="color:#ff8c00"><%= "#{@rank}位" %></span>
+              </td>
+              <td><span style="color:#ff8c00"><%= ranking.name %></span></td>
+              <td><span style="color:#ff8c00"><%= @car %>%</span></td>
+        <% else %>
+              <td>
+              <%= "#{@rank}位" %>
+              </td>
+              <td><%= ranking.name %></td>
+              <td><%= ranking.car %>%</td>
+        <% end %>
       <% end %>
   </tbody>
   <% end %>
 </table>
+
+<%= paginate @rankings %>
 
 <%= link_to("メニューへ戻る","/main")%>

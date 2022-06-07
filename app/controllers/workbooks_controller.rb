@@ -145,7 +145,6 @@ class WorkbooksController < ApplicationController
         @yourworkbooks = Record.where(user_id: @current_user.id).pluck(:score).compact
         @denominations = @yourworkbooks.count * 10
         @yourrecords = @yourworkbooks.sum
-        binding.pry
         @car = (@yourrecords.to_f / @denominations.to_f * 100).to_i
         @update_car.update(car: @car)
     end
@@ -180,7 +179,6 @@ class WorkbooksController < ApplicationController
         @count = @question.question_id
         workbook_temp #10問持ってきてる
         @word = Post.find_by(id: @question.post_id)
-        binding.pry
         if  @word.synonyms.exists?
             @synonym = @word.synonyms.pluck(:synonym)
         else
@@ -215,17 +213,31 @@ class WorkbooksController < ApplicationController
         @yourrecords = @yourworkbooks.sum
         @car = User.find_by(id: @current_user.id).car
         @rankings = User.order(car: :desc) - User.where(car: nil)
+        @rankings = Kaminari.paginate_array(@rankings).page(params[:page]).per(10)
     end
 
     def myranking
         ranking
-        @rankings.each_with_index do | ranking, inx |
-            ranking.car if inx == 0 || ranking.car != @rankings[i - 1].car
-            if  ranking.car != ranking.car
-                
-            end
-            if ranking.id == @current_user.id
-               @rank = inx
+        @tie = 0
+        @rank = 1
+        @rankings.each.with_index(1) do |ranking , i|
+            if i == 1
+                @tie = ranking.car
+                if ranking.id == @current_user.id
+                    @myrank = @rank
+                end
+            end 
+            if ranking.car != @tie 
+                @rank = i
+                if ranking.id == @current_user.id
+                    @myrank = @rank
+                end
+                @tie = ranking.car
+            else
+                if ranking.id == @current_user.id
+                    @myrank = @rank
+                end
+                @tie = ranking.car
             end
         end
     end
