@@ -1,9 +1,0 @@
-current directory: /Users/kuboyuka/flashCard_n/vendor/bundle/ruby/3.1.0/gems/libv8-3.16.14.19/ext/libv8
-/Users/kuboyuka/.rbenv/versions/3.1.1/bin/ruby -I /Users/kuboyuka/.rbenv/versions/3.1.1/lib/ruby/3.1.0 -r ./siteconf20220511-48936-pwbrni.rb extconf.rb
-creating Makefile
-/Users/kuboyuka/flashCard_n/vendor/bundle/ruby/3.1.0/gems/libv8-3.16.14.19/ext/libv8/builder.rb:86:in `setup_python!': libv8 requires python 2 to be installed in order to build, but it is currently not available (RuntimeError)
-	from /Users/kuboyuka/flashCard_n/vendor/bundle/ruby/3.1.0/gems/libv8-3.16.14.19/ext/libv8/builder.rb:53:in `build_libv8!'
-	from /Users/kuboyuka/flashCard_n/vendor/bundle/ruby/3.1.0/gems/libv8-3.16.14.19/ext/libv8/location.rb:24:in `install!'
-	from extconf.rb:7:in `<main>'
-
-extconf failed, exit code 1
