@@ -1,0 +1,34 @@
+<h1>確認画面</h1>
+<table>
+    <thead>
+        <tr>
+        <th></th>
+        <th>問題</th>
+        <th>回答</th>
+        <th>正解・不正解</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% @postbooks.each do |postbook| %>
+        <tr>
+            <td>
+            <%= postbook.question_id %>
+            </td>
+            <td>
+            <%= link_to Post.find_by(id: postbook.post_id).word, controller: :workbooks, action: :continue, id: params[:id], value: postbook.question_id  %>
+            </td>
+            <td>
+            <%= postbook.answer %>
+            </td>
+            <td>
+            </td>
+        </tr>
+    <%end%>
+    </tbody>
+</table>
+
+<%= link_to("採点する", "/workbooks/#{params[:id]}/judgement")%><br>
+<%= link_to "戻る", :back%>
+<br>
+<%= link_to("新規登録","/posts/new")%><br>
+<%= link_to("メニューへ戻る","/main")%>

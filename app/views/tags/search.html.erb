@@ -1,0 +1,27 @@
+<h1>検索結果</h1>
+<% @tags.each do |tag| %>
+<h1><%= tag.tag %></h1>
+    <tr>
+      <th>単語</th>
+      <th>意味</th>
+      <th>類義語</th>
+    </tr>
+    <tr>
+      <% @postags = PostTag.where(tag_id: tag.id) %>
+        <% @postags.each do |postag| %>
+            <% @posts = Post.where(id: postag.post_id)%>
+                <% @posts.each do |post| %>
+                    <td><%= link_to(post.word, "/posts/#{postag.post_id}")%></td>
+                    <td><%= link_to(post.mean, "/posts/#{postag.post_id}") %></td>
+            
+                <% @synonyms = Synonym.where(post_id: post.id) %>
+                    <% @synonyms.each do |synonym| %>
+                        <%if synonym != nil%>
+                            <td><%= link_to(synonym.synonym, "/posts/#{postag.post_id}") %></td>
+                        <% end %>
+        
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+    </tr>

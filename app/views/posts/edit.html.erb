@@ -1,0 +1,33 @@
+<h1>単語編集</h1>
+<%= form_with model: @post, url:"/posts/#{params[:id]}/update",data: { turbo: false }, method: :post do |form| %>
+    <p>単語</p>
+    <%= form.text_field :word, :value => "#{@post.word}" %>
+    <p>意味</p>
+    <%= form.text_field :mean,:value => "#{@post.mean}"%>
+    <p>類義語</p>
+    <div id='synonyms'>
+        <%= form.fields_for :synonyms do |synonym| %>
+            <%= render 'synonym_fields', f: synonym %>
+        <% end %>
+        <div class='links'>
+            <%= link_to_add_association '類義語追加', form, :synonyms %>
+        </div>
+    </div>
+    <p>タグ選択</p>
+    <%= form.fields_for :posttags do |posttag| %>
+    <%if @tag.present? %>
+        <%= form.select :tag_id, @tags.map{ |tag| [tag.tag, tag.id]},{include_blank:true,selected:"#{@tag.id}"} %>
+    <%else%>
+        <%= form.select :tag_id, @tags.map{ |tag| [tag.tag, tag.id]},{include_blank:true,selected:1} %>
+    <% end %>
+    <% end %>
+    <p>画像</p>
+    <% if  @post.image? %>
+        <%= image_tag @post.image.to_s, size: 10*10 %>
+    <% else %>
+        <img src="/uploads/post/image/noimage.jpeg" width="150" height="100">
+    <%end%>
+    <%= form.file_field :image, :multipart => true, value: @post.image %>
+    <%= form.submit "登録"%>
+<%end%>
+<%= link_to("戻る","/posts/index")%>
