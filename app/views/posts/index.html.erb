@@ -1,0 +1,49 @@
+<%= form_with url: search_path, local:true, method: :get, class: "search-form" do |f| %>
+    <%= f.text_field :keyword, placeholder:"検索する", class:"search-input" %>
+    <%= f.submit "検索", class: "search-btn" %>
+<% end %>
+<%= link_to "CSV出力", posts_index_path(format: :csv), class: "btn btn-primary" %>
+<table border="1" style="border-collapse: collapse">
+  <thead>
+    <tr>
+      <th>タグ</th>
+      <th>単語</th>
+      <th>意味</th>
+      <th>類義語</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @posts.each do |post|%>
+  <% post %>
+    <tr>
+      <td>
+      <% @postags = PostTag.where(post_id: post.id) %>
+      <% @postags.each do |postag|%>
+        <%if postag.tag_id != nil %>
+          <%@tags = Tag.where(id: postag.tag_id)%>
+          <%@tags.each do |tag|%>
+            <%= link_to(tag.tag,"/tags/#{tag.id}/show") %>
+          <% end %>
+        <% end %>
+      <% end %>
+      </td>
+      <td><%= link_to(post.word, "/posts/#{post.id}") %></td>
+      <td><%= link_to(post.mean, "/posts/#{post.id}") %></td>
+      <td>
+      <%@synonyms = Synonym.where(post_id: post.id) %>
+        <%@synonyms.each do |synonym|%>
+          <%if synonym.synonym != nil%>
+            <%= link_to(synonym.synonym, "/posts/#{post.id}") %>
+          <%else%>
+            <%p ""%>
+          <%end%>
+        <%end%>
+      </td>
+    </tr>
+  <%end%>
+  </tbody>
+</table>
+
+<br>
+<%= link_to("新規登録","/posts/new")%><br>
+<%= link_to("メニューへ戻る","/main")%>

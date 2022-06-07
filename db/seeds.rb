@@ -5,3 +5,16 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+i = 1
+
+100.times do |user|
+    User.update(
+        car: i,
+    )
+    if i == 101
+       i = 1
+    else
+       i += 1
+    end
+end

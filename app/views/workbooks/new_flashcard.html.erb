@@ -1,0 +1,30 @@
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js?ver=1.12.4'></script>
+
+<h1>第<span id = "count"><%= @count %></span>問</h1>
+<%= form_with url:"/workbooks/#{params[:id]}/new_flashcard_js" ,id: @count, data: { turbo: false }, local: false do |form| %>
+<span id="post"><%= @word.word%></span>
+<br>
+<br>
+<p>類義語</p><span id="synonym"><%= @synonym%></span>
+<br>
+<span id="choice1">
+<%= form.radio_button :answer, @array[0] %>
+<%= form.label :answer, @array[0] %>
+</span>
+<span id="choice2">
+<%= form.radio_button :answer, @array[1] %>
+<%= form.label :answer, @array[1] %>
+</span>
+<span id="choice3">
+<%= form.radio_button :answer, @array[2] %>
+<%= form.label :answer, @array[2] %>
+</span>
+<span id="question_id">
+<%= form.hidden_field :question_id, :value => @count %>
+</span>
+<br>
+<span id="next">
+<%= form.submit @button %>
+</span>
+<% end %>
+<%= link_to "戻る", :back%>

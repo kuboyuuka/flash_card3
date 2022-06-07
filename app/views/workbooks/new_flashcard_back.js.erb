@@ -1,0 +1,7 @@
+$("#count").html('<%= @count %>');
+$("#post").html('<%= @post.word%>');
+$("#synonym").html('<%= @synonym%>');
+$("#choice1").val("<%= @array[0]%>").html('<input type="radio" value="<%= @array[0]%>" name="answer" id="answer_<%= @array[0]%>"><label for="answer"><%= @array[0]%></label>');
+$("#choice2").val("<%= @array[1]%>").html('<input type="radio" value="<%= @array[1]%>" name="answer" id="answer_<%= @array[1]%>"><label for="answer"><%= @array[1]%></label>');
+$("#choice3").val("<%= @array[2]%>").html('<input type="radio" value="<%= @array[2]%>" name="answer" id="answer_<%= @array[2]%>"><label for="answer"><%= @array[2]%></label>');
+$("#next").html('<input type="submit" name="commit" value="前の問題へ" data-disable-with="前の問題へ"><input type="submit" name="commit" value="<%= @button%>" data-disable-with="<%= @button%>">');

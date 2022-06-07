@@ -1,0 +1,30 @@
+<h1>新規単語登録画面</h1>
+<% @post.errors.full_messages.each do |message| %>
+        <%= message %><br>
+<% end %>
+<%= form_with model: @post, url: posts_create_path, method: :post do |f| %>
+    <p>単語</p>
+        <%= f.text_field :word %>
+    <p>意味</p>
+        <%= f.text_field :mean %>
+    <p>類義語</p>
+    <div id='synonyms'>
+        <%= f.fields_for :synonyms, local: true do |synonym| %>
+            <%= render 'synonym_fields', f: synonym %>
+        <% end %>
+        <div class='links'>
+            <%= link_to_add_association '類義語追加', f, :synonyms %>
+        </div>
+    </div>
+    <p>タグ選択</p>
+    <%= f.fields_for :posttags do |posttag| %>
+        <%= f.select :tag_id, @tags.map{ |tag| [tag.tag, tag.id]},{include_blank:true,selected:0} %>
+    <% end %>
+    <p>画像</p>
+    <%= f.file_field :image, :multipart => true %>
+    <%= f.submit "登録"%>
+<% end %>
+    
+    <br>
+    <br>
+    <%= link_to("一覧へ戻る","/posts/index")%>

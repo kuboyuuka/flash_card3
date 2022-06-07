@@ -1,0 +1,19 @@
+<h1>新規登録</h1>
+    <% @user.errors.full_messages.each do |message| %>
+        <%= message %>
+    <% end %>
+    <%= form_tag("/users/create") do%>
+        <p>名前</p>
+            <input name="name" value="<%= @user.name %>">
+        <p>メールアドレス</p>
+            <input name="email" value="<%= @user.email %>">
+        <p>パスワード</p>
+            <input type="password" name="password">
+            <br>
+            <input type="password" name="password_confirmation">
+            <input type="submit" value="登録する">
+    <% end%>
+    <br>
+    <%= link_to("ログインする","/login")%>
+    <br>
+    <%= link_to("トップに戻る","/")%>

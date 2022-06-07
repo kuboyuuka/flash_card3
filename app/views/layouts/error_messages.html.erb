@@ -1,0 +1,4 @@
+<% if model.errors.any? 'errors' %>
+    <% model.errors.full_messages.each do |message| %>
+        <%= message %>
+<% end %>

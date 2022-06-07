@@ -1,0 +1,29 @@
+<h1>単語帳</h1>
+<%= link_to '新しく単語帳を始める' , workbooks_ready_path %><br><br>
+<table>
+  <thead>
+    <tr>
+        <th>単語帳</th>
+        <th></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @array.each do |score, workbook|%>
+    <tr>
+        <td><%= "#{score} /10点" %></td>
+        <td>
+            <%if score == nil %>
+                <%= link_to "続きから", controller: :workbooks, action: :continue, id: workbook %>
+            <%else%>
+                <%= link_to "回答を見る", controller: :workbooks, action: :judgement, id: workbook %>
+            <%end%>
+        </td>
+        <td>
+        <%= link_to "もう一度やる", controller: :workbooks, action: :onemore, id: workbook %>
+        </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table><br>
+<%= link_to("メニューへ戻る","/main")%>
